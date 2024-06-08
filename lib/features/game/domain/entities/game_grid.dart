@@ -43,17 +43,8 @@ class GameGrid extends Equatable {
 
   /// Returns a copy of the [GameGrid] with the given [value] set at the given [index].
   GameGrid setCellValue(GameGridCellValue value, {required int index}) {
-    final bool isCellOutOfBounds = index >= _cells.length;
-
-    if (isCellOutOfBounds) {
-      throw Exception('Cell index is out of bounds.');
-    }
-
-    final bool isCurrentCellEmpty =
-        getCell(index).value == GameGridCellValue.empty;
-
-    if (!isCurrentCellEmpty) {
-      throw Exception('Cell is not empty.');
+    if (!isMoveValid(index)) {
+      throw Exception('Invalid move');
     }
 
     // Copy the cells and update the cell at the given index
@@ -64,6 +55,23 @@ class GameGrid extends Equatable {
       );
 
     return copyWith(cells: newCells);
+  }
+
+  bool isMoveValid(int index) {
+    final bool isCellOutOfBounds = index >= _cells.length;
+
+    if (isCellOutOfBounds) {
+      return false;
+    }
+
+    final bool isCurrentCellEmpty =
+        getCell(index).value == GameGridCellValue.empty;
+
+    if (!isCurrentCellEmpty) {
+      return false;
+    }
+
+    return true;
   }
 
   /// Returns a copy of the [GameGrid] with the given [cells].

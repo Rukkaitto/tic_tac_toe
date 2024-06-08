@@ -24,7 +24,7 @@ class GameGridCellWidget extends StatelessWidget {
     return switch (cell.value) {
       GameGridCellValue.empty => const SizedBox(),
       GameGridCellValue.cross => Icon(Icons.close, size: size),
-      GameGridCellValue.circle => Icon(Icons.circle, size: size),
+      GameGridCellValue.circle => Icon(Icons.circle_outlined, size: size),
     };
   }
 

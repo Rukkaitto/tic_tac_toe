@@ -9,25 +9,22 @@ class GameGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<GameCubit>(
-      create: (_) => GameCubit(playerNames: <String>['J1', 'CPU']),
-      child: BlocBuilder<GameCubit, GameState>(
-        builder: (BuildContext context, GameState state) {
-          return GridView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: state.grid.size,
-            ),
-            itemCount: state.grid.length,
-            itemBuilder: (BuildContext context, int index) {
-              return GameGridCellWidget(
-                cell: state.grid.getCell(index),
-              );
-            },
-          );
-        },
-      ),
+    return BlocBuilder<GameCubit, GameState>(
+      builder: (BuildContext context, GameState state) {
+        return GridView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: state.grid.size,
+          ),
+          itemCount: state.grid.length,
+          itemBuilder: (BuildContext context, int index) {
+            return GameGridCellWidget(
+              cell: state.grid.getCell(index),
+            );
+          },
+        );
+      },
     );
   }
 }

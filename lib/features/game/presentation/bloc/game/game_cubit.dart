@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:logging/logging.dart';
 
 import '../../../domain/entities/entities.dart';
 
@@ -8,6 +9,8 @@ part 'game_state.dart';
 class GameCubit extends Cubit<GameState> {
   GameCubit({required List<String> playerNames})
       : super(GameState.initialize(size: 3, playerNames: playerNames));
+
+  final Logger log = Logger('GameCubit');
 
   void play({
     required int playerId,
@@ -33,7 +36,7 @@ class GameCubit extends Cubit<GameState> {
         ),
       );
     } on Exception catch (error) {
-      print(error);
+      log.warning(error);
       return;
     }
   }

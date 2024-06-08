@@ -23,7 +23,7 @@ class RouterService {
           name: AppRoutes.home.name,
           path: AppRoutes.home.path,
           builder: (BuildContext context, GoRouterState state) {
-            return const HomePage();
+            return const GamePage();
           },
         ),
       ],
