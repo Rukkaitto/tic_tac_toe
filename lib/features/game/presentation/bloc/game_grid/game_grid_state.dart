@@ -1,11 +1,13 @@
 part of 'game_grid_cubit.dart';
 
+typedef GameGrid = List<List<GameGridCell>>;
+
 class GameGridState extends Equatable {
   const GameGridState(this.grid);
 
   factory GameGridState.initialize({required int size}) {
     return GameGridState(
-      List<List<GameGridCell>>.generate(
+      GameGrid.generate(
         size,
         (int x) => List<GameGridCell>.generate(
           size,
@@ -19,7 +21,7 @@ class GameGridState extends Equatable {
     );
   }
 
-  final List<List<GameGridCell>> grid;
+  final GameGrid grid;
 
   int get gridSize => grid.length;
 
@@ -27,10 +29,10 @@ class GameGridState extends Equatable {
       grid.expand((List<GameGridCell> i) => i).toList();
 
   @override
-  List<Object> get props => <Object>[grid];
+  List<Object?> get props => <Object?>[grid];
 
   GameGridState copyWith({
-    List<List<GameGridCell>>? grid,
+    GameGrid? grid,
   }) {
     return GameGridState(
       grid ?? this.grid,
