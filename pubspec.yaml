@@ -18,6 +18,7 @@ dependencies:
   flutter_bloc: ^8.1.5
   equatable: ^2.0.5
   logging: ^1.2.0
+  collection: ^1.18.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

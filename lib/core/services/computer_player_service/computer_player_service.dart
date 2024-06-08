@@ -11,8 +11,8 @@ class ComputerPlayerService {
   Future<void> makeMove(BuildContext context) async {
     final GameCubit gameCubit = context.read<GameCubit>();
 
-    // Wait for a random duration to simulate thinking (between 1 and 3 seconds)
-    await Future<void>.delayed(Duration(seconds: _random.nextInt(3) + 1));
+    // Wait for a random duration to simulate thinking (between 1 and 2 seconds)
+    await Future<void>.delayed(Duration(seconds: _random.nextInt(2) + 1));
 
     // Find all valid moves
     final List<int> validCellIndices = <int>[];

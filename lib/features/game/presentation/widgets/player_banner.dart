@@ -17,7 +17,7 @@ class PlayerBanner extends StatelessWidget {
         const Spacer(),
         BlocBuilder<GameCubit, GameState>(
           builder: (BuildContext context, GameState state) {
-            if (state.isItMyTurn(player.index)) {
+            if (state.canIPlay(player.index) && !state.isGameOver) {
               return const CircularProgressIndicator();
             }
 

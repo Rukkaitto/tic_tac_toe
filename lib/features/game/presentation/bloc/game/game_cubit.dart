@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:logging/logging.dart';
 
@@ -16,7 +17,7 @@ class GameCubit extends Cubit<GameState> {
     required int playerId,
     required int index,
   }) {
-    if (!state.isItMyTurn(playerId)) {
+    if (!state.canIPlay(playerId)) {
       return;
     }
 
@@ -25,14 +26,24 @@ class GameCubit extends Cubit<GameState> {
     try {
       final GameGrid newGrid = state.grid.setCellValue(cellValue, index: index);
 
-      // Switch to the next player
-      final int nextPlayerId =
-          (state.currentPlayerId + 1) % state.players.length;
+      final Player? winner =
+          state.getWinner(grid: newGrid, players: state.players);
+
+      final bool isGameOver = winner != null || newGrid.isFull;
+
+      int? nextPlayerId;
+
+      if (!isGameOver) {
+        // Switch to the next player
+        nextPlayerId = (state.currentPlayerId + 1) % state.players.length;
+      }
 
       emit(
         state.copyWith(
           grid: newGrid,
           currentPlayerId: nextPlayerId,
+          winner: winner,
+          isGameOver: isGameOver,
         ),
       );
     } on Exception catch (error) {
