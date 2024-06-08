@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../bloc/game_grid/game_grid_cubit.dart';
+import '../bloc/game/game_cubit.dart';
 import 'widgets.dart';
 
 class GameGrid extends StatelessWidget {
@@ -9,18 +9,20 @@ class GameGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<GameGridCubit>(
-      create: (_) => GameGridCubit(),
-      child: BlocBuilder<GameGridCubit, GameGridState>(
-        builder: (BuildContext context, GameGridState state) {
+    return BlocProvider<GameCubit>(
+      create: (_) => GameCubit(playerNames: <String>['J1', 'CPU']),
+      child: BlocBuilder<GameCubit, GameState>(
+        builder: (BuildContext context, GameState state) {
           return GridView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: state.gridSize,
+              crossAxisCount: state.grid.size,
             ),
-            itemCount: state.flattenedGrid.length,
+            itemCount: state.grid.length,
             itemBuilder: (BuildContext context, int index) {
               return GameGridCellWidget(
-                cell: state.flattenedGrid[index],
+                cell: state.grid.getCell(index),
               );
             },
           );

@@ -1,34 +1,26 @@
 import 'package:equatable/equatable.dart';
 
-enum GameGridCellValue {
-  empty,
-  cross,
-  circle,
-}
+import 'entities.dart';
 
 class GameGridCell extends Equatable {
   const GameGridCell(
     this.value, {
-    required this.x,
-    required this.y,
+    required this.index,
   });
 
   final GameGridCellValue value;
-  final int x;
-  final int y;
+  final int index;
 
   @override
-  List<Object?> get props => <Object?>[value, x, y];
+  List<Object?> get props => <Object?>[value, index];
 
   GameGridCell copyWith({
     GameGridCellValue? value,
-    int? x,
-    int? y,
+    int? index,
   }) {
     return GameGridCell(
       value ?? this.value,
-      x: x ?? this.x,
-      y: y ?? this.y,
+      index: index ?? this.index,
     );
   }
 }
