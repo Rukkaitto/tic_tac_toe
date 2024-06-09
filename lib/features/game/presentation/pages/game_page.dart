@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/services/computer_player_service/computer_player_difficulty.dart';
 import '../../../../core/services/computer_player_service/computer_player_service.dart';
 import '../bloc/game/game_cubit.dart';
 import '../widgets/widgets.dart';
@@ -66,7 +67,8 @@ class GamePage extends StatelessWidget {
           }
 
           if (state.canIPlay(1)) {
-            ComputerPlayerService().makeMove(context);
+            ComputerPlayerService(difficulty: ComputerPlayerDifficulty.medium)
+                .makeMove(context);
           }
         },
         child: Scaffold(
