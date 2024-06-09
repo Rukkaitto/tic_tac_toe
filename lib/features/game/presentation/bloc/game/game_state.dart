@@ -57,49 +57,33 @@ class GameState extends Equatable {
   /// Returns the [Player] who won the game.
   /// Returns `null` if no player has won yet.
   Player? getWinner({required GameGrid grid, required List<Player> players}) {
-    // Check rows
-    for (int i = 0; i < grid.size; i++) {
-      final List<GameGridCell> row = grid.getRow(i);
-      if (row.every((GameGridCell cell) => cell.value == row.first.value)) {
+    Player? checkLine(List<GameGridCell> line) {
+      if (line.every(
+        (GameGridCell cell) =>
+            cell.value != GameGridCellValue.empty &&
+            cell.value == line.first.value,
+      )) {
         return players.firstWhereOrNull(
           (Player player) =>
-              getPlayerCellValue(player.index) == row.first.value,
+              getPlayerCellValue(player.index) == line.first.value,
         );
       }
+      return null;
     }
 
-    // Check columns
+    // Check rows and columns
     for (int i = 0; i < grid.size; i++) {
-      final List<GameGridCell> column = grid.getColumn(i);
-      if (column
-          .every((GameGridCell cell) => cell.value == column.first.value)) {
-        return players.firstWhereOrNull(
-          (Player player) =>
-              getPlayerCellValue(player.index) == column.first.value,
-        );
+      final Player? winner =
+          checkLine(grid.getRow(i)) ?? checkLine(grid.getColumn(i));
+      if (winner != null) {
+        return winner;
       }
     }
 
     // Check diagonals
-    final List<GameGridCell> diagonal1 = grid.getDiagonal1();
-    if (diagonal1
-        .every((GameGridCell cell) => cell.value == diagonal1.first.value)) {
-      return players.firstWhereOrNull(
-        (Player player) =>
-            getPlayerCellValue(player.index) == diagonal1.first.value,
-      );
-    }
-
-    final List<GameGridCell> diagonal2 = grid.getDiagonal2();
-    if (diagonal2
-        .every((GameGridCell cell) => cell.value == diagonal2.first.value)) {
-      return players.firstWhereOrNull(
-        (Player player) =>
-            getPlayerCellValue(player.index) == diagonal2.first.value,
-      );
-    }
-
-    return null;
+    final Player? winner =
+        checkLine(grid.getDiagonal1()) ?? checkLine(grid.getDiagonal2());
+    return winner;
   }
 
   /// Returns a copy of the [GameState] with the given [grid] and [players].
