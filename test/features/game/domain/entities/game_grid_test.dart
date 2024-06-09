@@ -15,6 +15,79 @@ void main() {
     grid = grid.setCellValue(GameGridCellValue.cross, index: 8);
   });
 
+  group('GameGrid.generate', () {
+    test('should generate a 3x3 grid', () {
+      final GameGrid grid = GameGrid.generate(size: 3);
+      expect(grid.size, 3);
+      expect(grid.length, 9);
+    });
+  });
+
+  group('size', () {
+    test('should return the correct size', () {
+      expect(grid.size, 3);
+    });
+  });
+
+  group('length', () {
+    test('should return the correct length', () {
+      expect(grid.length, 9);
+    });
+  });
+
+  group('isFull', () {
+    test('should return false if the grid is not full', () {
+      expect(grid.isFull, false);
+    });
+
+    test('should return true if the grid is full', () {
+      GameGrid fullGrid = GameGrid.generate(size: 3);
+      fullGrid = fullGrid.setCellValue(GameGridCellValue.cross, index: 0);
+      fullGrid = fullGrid.setCellValue(GameGridCellValue.circle, index: 1);
+      fullGrid = fullGrid.setCellValue(GameGridCellValue.cross, index: 2);
+      fullGrid = fullGrid.setCellValue(GameGridCellValue.circle, index: 3);
+      fullGrid = fullGrid.setCellValue(GameGridCellValue.cross, index: 4);
+      fullGrid = fullGrid.setCellValue(GameGridCellValue.circle, index: 5);
+      fullGrid = fullGrid.setCellValue(GameGridCellValue.cross, index: 6);
+      fullGrid = fullGrid.setCellValue(GameGridCellValue.circle, index: 7);
+      fullGrid = fullGrid.setCellValue(GameGridCellValue.cross, index: 8);
+      expect(fullGrid.isFull, true);
+    });
+  });
+
+  group('getCell', () {
+    test('should return the correct cell', () {
+      final GameGridCell cell = grid.getCell(0);
+      expect(cell, const GameGridCell(GameGridCellValue.cross, index: 0));
+    });
+  });
+
+  group('setCellValue', () {
+    test('should set the correct value', () {
+      final GameGrid newGrid =
+          grid.setCellValue(GameGridCellValue.circle, index: 2);
+      final GameGridCell cell = newGrid.getCell(2);
+      expect(cell, const GameGridCell(GameGridCellValue.circle, index: 2));
+    });
+
+    test('should throw an exception if the move is invalid', () {
+      expect(
+        () => grid.setCellValue(GameGridCellValue.circle, index: 0),
+        throwsException,
+      );
+    });
+  });
+
+  group('isMoveValid', () {
+    test('should return true if the move is valid', () {
+      expect(grid.isMoveValid(2), true);
+    });
+
+    test('should return false if the move is invalid', () {
+      expect(grid.isMoveValid(0), false);
+    });
+  });
+
   group('getRow', () {
     test('should return the correct row (1)', () {
       final List<GameGridCell> row = grid.getRow(0);
