@@ -51,4 +51,13 @@ class GameCubit extends Cubit<GameState> {
       return;
     }
   }
+
+  void reset() {
+    emit(
+      GameState.initialize(
+        size: state.grid.size,
+        playerNames: state.players.map((Player player) => player.name).toList(),
+      ),
+    );
+  }
 }

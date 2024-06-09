@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -8,6 +9,38 @@ import '../widgets/widgets.dart';
 class GamePage extends StatelessWidget {
   const GamePage({super.key});
 
+  void _handleGameEnd(
+    BuildContext context, {
+    required String title,
+    required String content,
+  }) {
+    showDialog<void>(
+      context: context,
+      builder: (_) {
+        return BlocProvider<GameCubit>.value(
+          value: BlocProvider.of<GameCubit>(context),
+          child: Builder(
+            builder: (BuildContext context) {
+              return CupertinoAlertDialog(
+                title: Text(title),
+                content: Text(content),
+                actions: <CupertinoDialogAction>[
+                  CupertinoDialogAction(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      context.read<GameCubit>().reset();
+                    },
+                    child: const Text('Restart Game'),
+                  ),
+                ],
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider<GameCubit>(
@@ -16,16 +49,16 @@ class GamePage extends StatelessWidget {
         listener: (BuildContext context, GameState state) {
           if (state.isGameOver) {
             if (state.winner != null) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text('${state.winner!.name} wins!'),
-                ),
+              _handleGameEnd(
+                context,
+                title: 'Game Over',
+                content: '${state.winner!.name} wins!',
               );
             } else {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text("It's a draw!"),
-                ),
+              _handleGameEnd(
+                context,
+                title: 'Game Over',
+                content: "It's a draw!",
               );
             }
 
