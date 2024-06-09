@@ -33,6 +33,10 @@ class GameGrid extends Equatable {
   /// Returns the length of the grid.
   int get length => _cells.length;
 
+  /// Returns `true` if the grid is full.
+  bool get isFull =>
+      !_cells.any((GameGridCell cell) => cell.value == GameGridCellValue.empty);
+
   @override
   List<Object?> get props => <Object?>[_cells];
 
@@ -43,17 +47,8 @@ class GameGrid extends Equatable {
 
   /// Returns a copy of the [GameGrid] with the given [value] set at the given [index].
   GameGrid setCellValue(GameGridCellValue value, {required int index}) {
-    final bool isCellOutOfBounds = index >= _cells.length;
-
-    if (isCellOutOfBounds) {
-      throw Exception('Cell index is out of bounds.');
-    }
-
-    final bool isCurrentCellEmpty =
-        getCell(index).value == GameGridCellValue.empty;
-
-    if (!isCurrentCellEmpty) {
-      throw Exception('Cell is not empty.');
+    if (!isMoveValid(index)) {
+      throw Exception('Invalid move');
     }
 
     // Copy the cells and update the cell at the given index
@@ -64,6 +59,68 @@ class GameGrid extends Equatable {
       );
 
     return copyWith(cells: newCells);
+  }
+
+  /// Returns `true` if the move at the given [index] is valid.
+  bool isMoveValid(int index) {
+    final bool isCellOutOfBounds = index >= _cells.length;
+
+    if (isCellOutOfBounds) {
+      return false;
+    }
+
+    final bool isCurrentCellEmpty =
+        getCell(index).value == GameGridCellValue.empty;
+
+    if (!isCurrentCellEmpty) {
+      return false;
+    }
+
+    return true;
+  }
+
+  /// Returns a list of [GameGridCell] for the given row [index].
+  List<GameGridCell> getRow(int index) {
+    final List<GameGridCell> row = <GameGridCell>[];
+
+    for (int i = 0; i < size; i++) {
+      row.add(getCell(index * size + i));
+    }
+
+    return row;
+  }
+
+  /// Returns a list of [GameGridCell] for the given column [index].
+  List<GameGridCell> getColumn(int index) {
+    final List<GameGridCell> column = <GameGridCell>[];
+
+    for (int i = 0; i < size; i++) {
+      column.add(getCell(i * size + index));
+    }
+
+    return column;
+  }
+
+  /// Returns a list of [GameGridCell] for the first diagonal.
+  List<GameGridCell> getDiagonal1() {
+    final List<GameGridCell> diagonal = <GameGridCell>[];
+
+    for (int i = 0; i < size; i++) {
+      diagonal.add(getCell(i * size + i));
+    }
+
+    return diagonal;
+  }
+
+  /// Returns a list of [GameGridCell] for the second diagonal.
+  List<GameGridCell> getDiagonal2() {
+    final List<GameGridCell> diagonal = <GameGridCell>[];
+
+    for (int i = 0; i < size; i++) {
+      diagonal.add(getCell(i * size + (size - i - 1)));
+    }
+
+    return diagonal;
   }
 
   /// Returns a copy of the [GameGrid] with the given [cells].
