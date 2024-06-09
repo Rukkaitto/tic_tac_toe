@@ -86,6 +86,37 @@ class GameState extends Equatable {
     return winner;
   }
 
+  GameState play({
+    required int playerId,
+    required int index,
+  }) {
+    if (!canIPlay(playerId)) {
+      return this;
+    }
+
+    final GameGridCellValue cellValue = getPlayerCellValue(playerId);
+
+    final GameGrid newGrid = grid.setCellValue(cellValue, index: index);
+
+    final Player? winner = getWinner(grid: newGrid, players: players);
+
+    final bool isGameOver = winner != null || newGrid.isFull;
+
+    int? nextPlayerId;
+
+    if (!isGameOver) {
+      // Switch to the next player
+      nextPlayerId = (currentPlayerId + 1) % players.length;
+    }
+
+    return copyWith(
+      grid: newGrid,
+      currentPlayerId: nextPlayerId,
+      winner: winner,
+      isGameOver: isGameOver,
+    );
+  }
+
   /// Returns a copy of the [GameState] with the given [grid] and [players].
   GameState copyWith({
     GameGrid? grid,

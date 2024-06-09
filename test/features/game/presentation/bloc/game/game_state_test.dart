@@ -227,4 +227,64 @@ void main() {
       expect(winner, players[1]);
     });
   });
+
+  test('play', () {
+    final List<Player> players = <Player>[
+      const Player(index: 0, name: 'Player 1'),
+      const Player(index: 1, name: 'Player 2'),
+    ];
+
+    final GameState state = GameState(
+      grid: GameGrid.generate(size: 3),
+      players: players,
+    );
+
+    // Simulate a game ending in a tie
+
+    GameState newState = state.play(playerId: 0, index: 0);
+
+    expect(newState.grid.getCell(0).value, GameGridCellValue.cross);
+    expect(newState.currentPlayerId, 1);
+
+    newState = newState.play(playerId: 1, index: 4);
+
+    expect(newState.grid.getCell(4).value, GameGridCellValue.circle);
+    expect(newState.currentPlayerId, 0);
+
+    newState = newState.play(playerId: 0, index: 5);
+
+    expect(newState.grid.getCell(5).value, GameGridCellValue.cross);
+    expect(newState.currentPlayerId, 1);
+
+    newState = newState.play(playerId: 1, index: 2);
+
+    expect(newState.grid.getCell(2).value, GameGridCellValue.circle);
+    expect(newState.currentPlayerId, 0);
+
+    newState = newState.play(playerId: 0, index: 6);
+
+    expect(newState.grid.getCell(6).value, GameGridCellValue.cross);
+    expect(newState.currentPlayerId, 1);
+
+    newState = newState.play(playerId: 1, index: 3);
+
+    expect(newState.grid.getCell(3).value, GameGridCellValue.circle);
+    expect(newState.currentPlayerId, 0);
+
+    newState = newState.play(playerId: 0, index: 1);
+
+    expect(newState.grid.getCell(1).value, GameGridCellValue.cross);
+    expect(newState.currentPlayerId, 1);
+
+    newState = newState.play(playerId: 1, index: 8);
+
+    expect(newState.grid.getCell(8).value, GameGridCellValue.circle);
+    expect(newState.currentPlayerId, 0);
+
+    newState = newState.play(playerId: 0, index: 7);
+
+    expect(newState.grid.getCell(7).value, GameGridCellValue.cross);
+    expect(newState.isGameOver, true);
+    expect(newState.winner, null);
+  });
 }
