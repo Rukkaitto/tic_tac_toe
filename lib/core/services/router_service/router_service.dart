@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../features/game/presentation/pages/game_page.dart';
+import '../../../features/uikit/presentation/pages/uikit_page.dart';
+import '../../ui_components/my_button/demo_page.dart';
 import 'app_route.dart';
 import 'app_routes.dart';
 
@@ -17,7 +19,7 @@ class RouterService {
 
   static GoRouter createRouter() {
     final GoRouter router = GoRouter(
-      initialLocation: AppRoutes.home.path,
+      initialLocation: AppRoutes.uikit.path,
       routes: <RouteBase>[
         GoRoute(
           name: AppRoutes.home.name,
@@ -25,6 +27,22 @@ class RouterService {
           builder: (BuildContext context, GoRouterState state) {
             return const GamePage();
           },
+        ),
+        GoRoute(
+          name: AppRoutes.uikit.name,
+          path: AppRoutes.uikit.path,
+          builder: (BuildContext context, GoRouterState state) {
+            return const UIKitPage();
+          },
+          routes: <GoRoute>[
+            GoRoute(
+              name: AppRoutes.myButton.name,
+              path: AppRoutes.myButton.path,
+              builder: (BuildContext context, GoRouterState state) {
+                return const MyButtonDemoPage();
+              },
+            ),
+          ],
         ),
       ],
     );
