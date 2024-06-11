@@ -76,12 +76,15 @@ class GamePage extends StatelessWidget {
           }
         },
         child: Scaffold(
+          appBar: AppBar(
+            title: const Text('Tic Tac Toe'),
+          ),
           body: Padding(
             padding: const EdgeInsets.all(35),
             child: BlocBuilder<GameCubit, GameState>(
               builder: (BuildContext context, GameState state) {
                 return Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     PlayerBanner(player: state.player2),
                     GameGridWidget(grid: state.grid),

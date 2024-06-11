@@ -23,7 +23,7 @@ class RouterService {
 
   static GoRouter createRouter() {
     final GoRouter router = GoRouter(
-      initialLocation: AppRoutes.uikit.path,
+      initialLocation: AppRoutes.home.path,
       routes: <RouteBase>[
         GoRoute(
           name: AppRoutes.home.name,

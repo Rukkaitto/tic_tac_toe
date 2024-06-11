@@ -11,20 +11,23 @@ class PlayerBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: <Widget>[
-        Text(player.name, style: const TextStyle(fontSize: 30)),
-        const Spacer(),
-        BlocBuilder<GameCubit, GameState>(
-          builder: (BuildContext context, GameState state) {
-            if (state.canIPlay(player) && !state.isGameOver) {
-              return const CircularProgressIndicator();
-            }
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      child: Row(
+        children: <Widget>[
+          Text(player.name, style: const TextStyle(fontSize: 30)),
+          const Spacer(),
+          BlocBuilder<GameCubit, GameState>(
+            builder: (BuildContext context, GameState state) {
+              if (state.canIPlay(player) && !state.isGameOver) {
+                return const CircularProgressIndicator();
+              }
 
-            return const SizedBox();
-          },
-        ),
-      ],
+              return const SizedBox();
+            },
+          ),
+        ],
+      ),
     );
   }
 }
