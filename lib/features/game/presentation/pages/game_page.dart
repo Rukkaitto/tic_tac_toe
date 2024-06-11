@@ -1,9 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/services/computer_player_service/computer_player_difficulty.dart';
-import '../../../../core/services/computer_player_service/computer_player_service.dart';
+import '../../domain/entities/entities.dart';
 import '../bloc/game/game_cubit.dart';
 import '../widgets/widgets.dart';
 
@@ -29,7 +30,7 @@ class GamePage extends StatelessWidget {
                   CupertinoDialogAction(
                     onPressed: () {
                       Navigator.of(context).pop();
-                      context.read<GameCubit>().reset();
+                      //context.read<GameCubit>().reset();
                     },
                     child: const Text('Restart Game'),
                   ),
@@ -45,7 +46,22 @@ class GamePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<GameCubit>(
-      create: (_) => GameCubit(playerNames: <String>['J1', 'CPU']),
+      create: (_) => GameCubit(
+        player1: LocalPlayer(
+          name: 'Player 1',
+          cellValue: GameGridCellValue.cross,
+          completer: Completer<int>(),
+        ),
+        // player2: LocalPlayer(
+        //   name: 'Player 2',
+        //   cellValue: GameGridCellValue.circle,
+        //   completer: Completer<int>(),
+        // ),
+        player2: ComputerPlayer(
+          cellValue: GameGridCellValue.circle,
+          difficulty: ComputerPlayerDifficulty.hard,
+        ),
+      )..startGame(),
       child: BlocListener<GameCubit, GameState>(
         listener: (BuildContext context, GameState state) {
           if (state.isGameOver) {
@@ -65,11 +81,6 @@ class GamePage extends StatelessWidget {
 
             return;
           }
-
-          if (state.canIPlay(1)) {
-            ComputerPlayerService(difficulty: ComputerPlayerDifficulty.medium)
-                .makeMove(context);
-          }
         },
         child: Scaffold(
           body: Padding(
@@ -79,9 +90,9 @@ class GamePage extends StatelessWidget {
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    PlayerBanner(player: state.players[1]),
+                    PlayerBanner(player: state.player2),
                     GameGridWidget(grid: state.grid),
-                    PlayerBanner(player: state.players[0]),
+                    PlayerBanner(player: state.player1),
                   ],
                 );
               },

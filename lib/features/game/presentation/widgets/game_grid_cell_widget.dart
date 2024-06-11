@@ -14,10 +14,14 @@ class GameGridCellWidget extends StatelessWidget {
     BuildContext context, {
     required GameGridCell cell,
   }) {
-    context.read<GameCubit>().play(playerId: 0, index: cell.index);
+    final Player currentPlayer = context.read<GameCubit>().state.currentPlayer;
 
-    // Vibration feedback
-    HapticFeedback.mediumImpact();
+    if (currentPlayer is LocalPlayer) {
+      currentPlayer.completer.complete(cell.index);
+
+      // Vibration feedback
+      HapticFeedback.mediumImpact();
+    }
   }
 
   Widget _buildIcon(GameGridCell cell, {required double size}) {
