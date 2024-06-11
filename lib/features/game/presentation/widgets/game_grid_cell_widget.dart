@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,7 +19,7 @@ class GameGridCellWidget extends StatelessWidget {
     final Player currentPlayer = context.read<GameCubit>().state.currentPlayer;
 
     if (currentPlayer is LocalPlayer) {
-      currentPlayer.completer.complete(cell.index);
+      currentPlayer.complete(cell.index);
 
       // Vibration feedback
       HapticFeedback.mediumImpact();

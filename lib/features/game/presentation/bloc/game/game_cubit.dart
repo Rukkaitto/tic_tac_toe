@@ -24,14 +24,18 @@ class GameCubit extends Cubit<GameState> {
 
   Future<void> startGame() async {
     await Future.doWhile(() async {
+      // Wait for the current player to make a move
       final int move = await state.currentPlayer.play(state);
 
+      // Check if the move is valid
       if (state.grid.isMoveValid(move)) {
+        // Update the grid with the new move
         final GameGrid newGrid = state.grid.setCellValue(
           state.currentPlayer.cellValue,
           index: move,
         );
 
+        // Check if the game is over
         final Player? winner = state.getWinner(
           grid: newGrid,
           player1: state.player1,
@@ -40,6 +44,7 @@ class GameCubit extends Cubit<GameState> {
 
         final bool isGameOver = winner != null || newGrid.isFull;
 
+        // Update the state
         emit(
           state.copyWith(
             grid: newGrid,
@@ -54,5 +59,17 @@ class GameCubit extends Cubit<GameState> {
 
       return !state.isGameOver;
     });
+  }
+
+  void resetGame() {
+    emit(
+      GameState.initialize(
+        size: 3,
+        player1: state.player1,
+        player2: state.player2,
+      ),
+    );
+
+    startGame();
   }
 }

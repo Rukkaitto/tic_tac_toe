@@ -19,7 +19,7 @@ class ComputerPlayer extends Player {
         return 0;
       } else if (state.winner == this) {
         return 10 - depth;
-      } else {
+      } else if (state.winner == state.getOtherPlayer(this)) {
         return depth - 10;
       }
     }
@@ -28,6 +28,10 @@ class ComputerPlayer extends Player {
   }
 
   int _minimax(GameState state, int depth, bool isMax) {
+    if (state.isGameOver) {
+      return _evaluate(state, depth);
+    }
+
     // Limits the depth of the search depending on the difficulty
     switch (difficulty) {
       case ComputerPlayerDifficulty.easy:
@@ -77,12 +81,8 @@ class ComputerPlayer extends Player {
 
       for (int i = 0; i < state.grid.length; i++) {
         if (state.grid.getCell(i).value == GameGridCellValue.empty) {
-          final Player opponent = state.player1.cellValue == cellValue
-              ? state.player2
-              : state.player1;
-
-          final GameGrid newGrid =
-              state.grid.setCellValue(opponent.cellValue, index: i);
+          final GameGrid newGrid = state.grid
+              .setCellValue(state.getOtherPlayer(this).cellValue, index: i);
 
           final Player? winner = state.getWinner(
             grid: newGrid,
@@ -145,7 +145,7 @@ class ComputerPlayer extends Player {
   @override
   Future<int> play(GameState state) async {
     // Wait for a random duration to simulate thinking (between 1 and 2 seconds)
-    //await Future<void>.delayed(Duration(seconds: _random.nextInt(2) + 1));
+    await Future<void>.delayed(Duration(seconds: _random.nextInt(2) + 1));
 
     int move;
 

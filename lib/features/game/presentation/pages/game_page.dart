@@ -30,7 +30,7 @@ class GamePage extends StatelessWidget {
                   CupertinoDialogAction(
                     onPressed: () {
                       Navigator.of(context).pop();
-                      //context.read<GameCubit>().reset();
+                      context.read<GameCubit>().resetGame();
                     },
                     child: const Text('Restart Game'),
                   ),

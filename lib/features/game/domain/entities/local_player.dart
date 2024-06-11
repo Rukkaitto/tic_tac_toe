@@ -7,16 +7,22 @@ class LocalPlayer extends Player {
   LocalPlayer({
     required super.name,
     required super.cellValue,
-    required this.completer,
-  });
+    required Completer<int> completer,
+  }) : _completer = completer;
 
-  Completer<int> completer;
+  Completer<int> _completer;
 
   @override
-  Future<int> play(GameState state) async {
-    final Completer<int> completer = Completer<int>();
-    this.completer = completer;
+  Future<int> play(GameState state) {
+    return _completer.future;
+  }
 
-    return completer.future;
+  void complete(int index) {
+    if (!_completer.isCompleted) {
+      _completer.complete(index);
+
+      // Reset the completer to allow the player to play again
+      _completer = Completer<int>();
+    }
   }
 }
