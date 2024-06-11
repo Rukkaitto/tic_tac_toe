@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,7 +7,14 @@ import '../bloc/game/game_cubit.dart';
 import '../widgets/widgets.dart';
 
 class GamePage extends StatelessWidget {
-  const GamePage({super.key});
+  const GamePage({
+    super.key,
+    required this.player1,
+    required this.player2,
+  });
+
+  final Player player1;
+  final Player player2;
 
   void _handleGameEnd(
     BuildContext context, {
@@ -47,20 +52,8 @@ class GamePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<GameCubit>(
       create: (_) => GameCubit(
-        player1: LocalPlayer(
-          name: 'Player 1',
-          cellValue: GameGridCellValue.cross,
-          completer: Completer<int>(),
-        ),
-        // player2: LocalPlayer(
-        //   name: 'Player 2',
-        //   cellValue: GameGridCellValue.circle,
-        //   completer: Completer<int>(),
-        // ),
-        player2: ComputerPlayer(
-          cellValue: GameGridCellValue.circle,
-          difficulty: ComputerPlayerDifficulty.hard,
-        ),
+        player1: player1,
+        player2: player2,
       )..startGame(),
       child: BlocListener<GameCubit, GameState>(
         listener: (BuildContext context, GameState state) {
