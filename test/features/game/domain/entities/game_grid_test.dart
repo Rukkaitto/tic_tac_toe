@@ -172,4 +172,17 @@ void main() {
       ]);
     });
   });
+
+  group('toString', () {
+    test('should return a string representation of the GameGrid', () {
+      final String result = grid.toString();
+
+      expect(result, '''
+X | O |  
+---------
+X |   | O
+---------
+X | X | X''');
+    });
+  });
 }
