@@ -43,12 +43,6 @@ class GameState extends Equatable {
         winner,
       ];
 
-  /// Returns `true` if it's the given [playerId]'s turn.
-  bool canIPlay(Player player) => player == currentPlayer && !isGameOver;
-
-  /// Returns the [Player] who is not the given [player].
-  Player getOtherPlayer(Player player) => player == player1 ? player2 : player1;
-
   /// Returns the [Player] who won the game.
   /// Returns `null` if no player has won yet.
   Player? getWinner({

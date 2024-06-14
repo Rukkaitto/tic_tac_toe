@@ -113,4 +113,37 @@ class GameGrid extends Equatable {
       cells: cells ?? _cells,
     );
   }
+
+  /// Returns a string representation of the grid.
+  @override
+  String toString() {
+    final StringBuffer buffer = StringBuffer();
+
+    for (int i = 0; i < size; i++) {
+      final List<GameGridCell> row = getRow(i);
+
+      for (int j = 0; j < row.length; j++) {
+        final GameGridCellValue value = row[j].value;
+        if (value == GameGridCellValue.circle) {
+          buffer.write('O');
+        } else if (value == GameGridCellValue.cross) {
+          buffer.write('X');
+        } else {
+          buffer.write(' ');
+        }
+
+        if (j < row.length - 1) {
+          buffer.write(' | ');
+        }
+      }
+
+      if (i < size - 1) {
+        buffer.write('\n');
+        buffer.write('---------');
+        buffer.write('\n');
+      }
+    }
+
+    return buffer.toString();
+  }
 }

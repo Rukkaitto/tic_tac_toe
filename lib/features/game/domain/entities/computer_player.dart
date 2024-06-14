@@ -20,7 +20,7 @@ class ComputerPlayer extends Player {
         return 0;
       } else if (state.winner == this) {
         return 10 - depth;
-      } else if (state.winner == state.getOtherPlayer(this)) {
+      } else if (state.winner == getOpponent(state)) {
         return depth - 10;
       }
     }
@@ -88,7 +88,7 @@ class ComputerPlayer extends Player {
       for (int i = 0; i < state.grid.length; i++) {
         if (state.grid.getCell(i).value == GameGridCellValue.empty) {
           final Move move = Move(
-            value: state.getOtherPlayer(this).cellValue,
+            value: getOpponent(state).cellValue,
             index: i,
           );
 
