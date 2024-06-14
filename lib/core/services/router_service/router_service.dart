@@ -40,12 +40,12 @@ class RouterService {
                   player1: LocalPlayer(
                     name: 'Player 1',
                     cellValue: GameGridCellValue.cross,
-                    completer: Completer<int>(),
+                    completer: Completer<Move>(),
                   ),
                   player2: LocalPlayer(
                     name: 'Player 2',
                     cellValue: GameGridCellValue.circle,
-                    completer: Completer<int>(),
+                    completer: Completer<Move>(),
                   ),
                 );
               },
@@ -56,13 +56,32 @@ class RouterService {
               builder: (BuildContext context, GoRouterState state) {
                 return GamePage(
                   player1: LocalPlayer(
-                    name: 'Player 1',
+                    name: 'Player',
                     cellValue: GameGridCellValue.cross,
-                    completer: Completer<int>(),
+                    completer: Completer<Move>(),
                   ),
                   player2: ComputerPlayer(
+                    name: 'Computer',
                     cellValue: GameGridCellValue.circle,
                     difficulty: ComputerPlayerDifficulty.medium,
+                  ),
+                );
+              },
+            ),
+            GoRoute(
+              name: AppRoutes.gameComputerVsComputer.name,
+              path: AppRoutes.gameComputerVsComputer.path,
+              builder: (BuildContext context, GoRouterState state) {
+                return GamePage(
+                  player1: ComputerPlayer(
+                    name: 'Computer 1',
+                    cellValue: GameGridCellValue.cross,
+                    difficulty: ComputerPlayerDifficulty.hard,
+                  ),
+                  player2: ComputerPlayer(
+                    name: 'Computer 2',
+                    cellValue: GameGridCellValue.circle,
+                    difficulty: ComputerPlayerDifficulty.hard,
                   ),
                 );
               },

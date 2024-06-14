@@ -28,6 +28,13 @@ class HomePage extends StatelessWidget {
                 RouterService.of(context).go(AppRoutes.gameLocalVsComputer);
               },
             ),
+            const SizedBox(height: 20),
+            MyButton(
+              text: 'Ordi vs. Ordi',
+              onPressed: () {
+                RouterService.of(context).go(AppRoutes.gameComputerVsComputer);
+              },
+            ),
           ],
         ),
       ),

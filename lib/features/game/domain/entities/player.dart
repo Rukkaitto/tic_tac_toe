@@ -12,5 +12,5 @@ abstract class Player {
   final String name;
   final GameGridCellValue cellValue;
 
-  Future<int> play(GameState state);
+  Future<Move> play(GameState state);
 }

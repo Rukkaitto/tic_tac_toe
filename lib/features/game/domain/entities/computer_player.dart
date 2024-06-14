@@ -8,7 +8,8 @@ class ComputerPlayer extends Player {
   ComputerPlayer({
     required super.cellValue,
     required this.difficulty,
-  }) : super(name: 'CPU');
+    required super.name,
+  });
 
   final Random _random = Random();
   final ComputerPlayerDifficulty difficulty;
@@ -53,7 +54,12 @@ class ComputerPlayer extends Player {
 
       for (int i = 0; i < state.grid.length; i++) {
         if (state.grid.getCell(i).value == GameGridCellValue.empty) {
-          final GameGrid newGrid = state.grid.setCellValue(cellValue, index: i);
+          final Move move = Move(
+            value: cellValue,
+            index: i,
+          );
+
+          final GameGrid newGrid = state.grid.applyMove(move);
 
           final Player? winner = state.getWinner(
             grid: newGrid,
@@ -81,8 +87,12 @@ class ComputerPlayer extends Player {
 
       for (int i = 0; i < state.grid.length; i++) {
         if (state.grid.getCell(i).value == GameGridCellValue.empty) {
-          final GameGrid newGrid = state.grid
-              .setCellValue(state.getOtherPlayer(this).cellValue, index: i);
+          final Move move = Move(
+            value: state.getOtherPlayer(this).cellValue,
+            index: i,
+          );
+
+          final GameGrid newGrid = state.grid.applyMove(move);
 
           final Player? winner = state.getWinner(
             grid: newGrid,
@@ -108,7 +118,7 @@ class ComputerPlayer extends Player {
     }
   }
 
-  int _findRandomMove(GameState state) {
+  Move _findRandomMove(GameState state) {
     final List<int> emptyCells = <int>[];
 
     for (int i = 0; i < state.grid.length; i++) {
@@ -117,16 +127,26 @@ class ComputerPlayer extends Player {
       }
     }
 
-    return emptyCells[_random.nextInt(emptyCells.length)];
+    final int randomIndex = _random.nextInt(emptyCells.length);
+
+    return Move(
+      value: cellValue,
+      index: emptyCells[randomIndex],
+    );
   }
 
-  int _findBestMove(GameState state) {
+  Move _findBestMove(GameState state) {
     int bestScore = -1000;
-    int bestMove = -1;
+    Move bestMove = Move(value: cellValue, index: -1);
 
     for (int i = 0; i < state.grid.length; i++) {
       if (state.grid.getCell(i).value == GameGridCellValue.empty) {
-        final GameGrid newGrid = state.grid.setCellValue(cellValue, index: i);
+        final Move move = Move(
+          value: cellValue,
+          index: i,
+        );
+
+        final GameGrid newGrid = state.grid.applyMove(move);
 
         final GameState newState = state.copyWith(grid: newGrid);
 
@@ -134,7 +154,7 @@ class ComputerPlayer extends Player {
 
         if (score > bestScore) {
           bestScore = score;
-          bestMove = i;
+          bestMove = move;
         }
       }
     }
@@ -143,11 +163,11 @@ class ComputerPlayer extends Player {
   }
 
   @override
-  Future<int> play(GameState state) async {
+  Future<Move> play(GameState state) async {
     // Wait for a random duration to simulate thinking (between 1 and 2 seconds)
     await Future<void>.delayed(Duration(seconds: _random.nextInt(2) + 1));
 
-    int move;
+    Move move;
 
     if (difficulty == ComputerPlayerDifficulty.easy) {
       move = _findRandomMove(state);

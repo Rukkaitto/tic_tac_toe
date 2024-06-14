@@ -25,4 +25,9 @@ class AppRoutes {
     path: 'local-vs-computer',
     name: 'LocalVsComputer',
   );
+
+  static const AppRoute gameComputerVsComputer = AppRoute(
+    path: 'computer-vs-computer',
+    name: 'ComputerVsComputer',
+  );
 }
