@@ -6,13 +6,27 @@ void main() {
 
   setUp(() {
     grid = GameGrid.generate(size: 3);
-    grid = grid.setCellValue(GameGridCellValue.cross, index: 0);
-    grid = grid.setCellValue(GameGridCellValue.circle, index: 1);
-    grid = grid.setCellValue(GameGridCellValue.cross, index: 3);
-    grid = grid.setCellValue(GameGridCellValue.circle, index: 5);
-    grid = grid.setCellValue(GameGridCellValue.cross, index: 6);
-    grid = grid.setCellValue(GameGridCellValue.cross, index: 7);
-    grid = grid.setCellValue(GameGridCellValue.cross, index: 8);
+    grid = grid.applyMove(
+      const Move(value: GameGridCellValue.cross, index: 0),
+    );
+    grid = grid.applyMove(
+      const Move(value: GameGridCellValue.circle, index: 1),
+    );
+    grid = grid.applyMove(
+      const Move(value: GameGridCellValue.cross, index: 3),
+    );
+    grid = grid.applyMove(
+      const Move(value: GameGridCellValue.circle, index: 5),
+    );
+    grid = grid.applyMove(
+      const Move(value: GameGridCellValue.cross, index: 6),
+    );
+    grid = grid.applyMove(
+      const Move(value: GameGridCellValue.cross, index: 7),
+    );
+    grid = grid.applyMove(
+      const Move(value: GameGridCellValue.cross, index: 8),
+    );
   });
 
   group('GameGrid.generate', () {
@@ -42,15 +56,11 @@ void main() {
 
     test('should return true if the grid is full', () {
       GameGrid fullGrid = GameGrid.generate(size: 3);
-      fullGrid = fullGrid.setCellValue(GameGridCellValue.cross, index: 0);
-      fullGrid = fullGrid.setCellValue(GameGridCellValue.circle, index: 1);
-      fullGrid = fullGrid.setCellValue(GameGridCellValue.cross, index: 2);
-      fullGrid = fullGrid.setCellValue(GameGridCellValue.circle, index: 3);
-      fullGrid = fullGrid.setCellValue(GameGridCellValue.cross, index: 4);
-      fullGrid = fullGrid.setCellValue(GameGridCellValue.circle, index: 5);
-      fullGrid = fullGrid.setCellValue(GameGridCellValue.cross, index: 6);
-      fullGrid = fullGrid.setCellValue(GameGridCellValue.circle, index: 7);
-      fullGrid = fullGrid.setCellValue(GameGridCellValue.cross, index: 8);
+      for (int i = 0; i < fullGrid.length; i++) {
+        fullGrid = fullGrid.applyMove(
+          Move(value: GameGridCellValue.cross, index: i),
+        );
+      }
       expect(fullGrid.isFull, true);
     });
   });
@@ -62,29 +72,24 @@ void main() {
     });
   });
 
-  group('setCellValue', () {
+  group('applyMove', () {
     test('should set the correct value', () {
-      final GameGrid newGrid =
-          grid.setCellValue(GameGridCellValue.circle, index: 2);
+      const Move move = Move(
+        value: GameGridCellValue.circle,
+        index: 2,
+      );
+      final GameGrid newGrid = grid.applyMove(move);
       final GameGridCell cell = newGrid.getCell(2);
       expect(cell, const GameGridCell(GameGridCellValue.circle, index: 2));
     });
 
     test('should throw an exception if the move is invalid', () {
       expect(
-        () => grid.setCellValue(GameGridCellValue.circle, index: 0),
+        () => grid.applyMove(
+          const Move(value: GameGridCellValue.circle, index: 0),
+        ),
         throwsException,
       );
-    });
-  });
-
-  group('isMoveValid', () {
-    test('should return true if the move is valid', () {
-      expect(grid.isMoveValid(2), true);
-    });
-
-    test('should return false if the move is invalid', () {
-      expect(grid.isMoveValid(0), false);
     });
   });
 
@@ -165,6 +170,19 @@ void main() {
         GameGridCell(GameGridCellValue.empty, index: 4),
         GameGridCell(GameGridCellValue.cross, index: 6),
       ]);
+    });
+  });
+
+  group('toString', () {
+    test('should return a string representation of the GameGrid', () {
+      final String result = grid.toString();
+
+      expect(result, '''
+X | O |  
+---------
+X |   | O
+---------
+X | X | X''');
     });
   });
 }

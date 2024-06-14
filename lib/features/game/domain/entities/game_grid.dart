@@ -46,37 +46,19 @@ class GameGrid extends Equatable {
   }
 
   /// Returns a copy of the [GameGrid] with the given [value] set at the given [index].
-  GameGrid setCellValue(GameGridCellValue value, {required int index}) {
-    if (!isMoveValid(index)) {
+  GameGrid applyMove(Move move) {
+    if (!move.isValid(this)) {
       throw Exception('Invalid move');
     }
 
     // Copy the cells and update the cell at the given index
     final List<GameGridCell> newCells = List<GameGridCell>.from(_cells)
-      ..[index] = GameGridCell(
-        value,
-        index: index,
+      ..[move.index] = GameGridCell(
+        move.value,
+        index: move.index,
       );
 
     return copyWith(cells: newCells);
-  }
-
-  /// Returns `true` if the move at the given [index] is valid.
-  bool isMoveValid(int index) {
-    final bool isCellOutOfBounds = index >= _cells.length;
-
-    if (isCellOutOfBounds) {
-      return false;
-    }
-
-    final bool isCurrentCellEmpty =
-        getCell(index).value == GameGridCellValue.empty;
-
-    if (!isCurrentCellEmpty) {
-      return false;
-    }
-
-    return true;
   }
 
   /// Returns a list of [GameGridCell] for the given row [index].
@@ -130,5 +112,38 @@ class GameGrid extends Equatable {
     return GameGrid._(
       cells: cells ?? _cells,
     );
+  }
+
+  /// Returns a string representation of the grid.
+  @override
+  String toString() {
+    final StringBuffer buffer = StringBuffer();
+
+    for (int i = 0; i < size; i++) {
+      final List<GameGridCell> row = getRow(i);
+
+      for (int j = 0; j < row.length; j++) {
+        final GameGridCellValue value = row[j].value;
+        if (value == GameGridCellValue.circle) {
+          buffer.write('O');
+        } else if (value == GameGridCellValue.cross) {
+          buffer.write('X');
+        } else {
+          buffer.write(' ');
+        }
+
+        if (j < row.length - 1) {
+          buffer.write(' | ');
+        }
+      }
+
+      if (i < size - 1) {
+        buffer.write('\n');
+        buffer.write('---------');
+        buffer.write('\n');
+      }
+    }
+
+    return buffer.toString();
   }
 }

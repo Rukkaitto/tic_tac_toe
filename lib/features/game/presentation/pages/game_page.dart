@@ -2,13 +2,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/services/computer_player_service/computer_player_difficulty.dart';
-import '../../../../core/services/computer_player_service/computer_player_service.dart';
+import '../../domain/entities/entities.dart';
 import '../bloc/game/game_cubit.dart';
 import '../widgets/widgets.dart';
 
 class GamePage extends StatelessWidget {
-  const GamePage({super.key});
+  const GamePage({
+    super.key,
+    required this.player1,
+    required this.player2,
+  });
+
+  final Player player1;
+  final Player player2;
 
   void _handleGameEnd(
     BuildContext context, {
@@ -29,7 +35,7 @@ class GamePage extends StatelessWidget {
                   CupertinoDialogAction(
                     onPressed: () {
                       Navigator.of(context).pop();
-                      context.read<GameCubit>().reset();
+                      context.read<GameCubit>().resetGame();
                     },
                     child: const Text('Restart Game'),
                   ),
@@ -45,7 +51,10 @@ class GamePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<GameCubit>(
-      create: (_) => GameCubit(playerNames: <String>['J1', 'CPU']),
+      create: (_) => GameCubit(
+        player1: player1,
+        player2: player2,
+      )..startGame(),
       child: BlocListener<GameCubit, GameState>(
         listener: (BuildContext context, GameState state) {
           if (state.isGameOver) {
@@ -65,23 +74,21 @@ class GamePage extends StatelessWidget {
 
             return;
           }
-
-          if (state.canIPlay(1)) {
-            ComputerPlayerService(difficulty: ComputerPlayerDifficulty.medium)
-                .makeMove(context);
-          }
         },
         child: Scaffold(
+          appBar: AppBar(
+            title: const Text('Tic Tac Toe'),
+          ),
           body: Padding(
             padding: const EdgeInsets.all(35),
             child: BlocBuilder<GameCubit, GameState>(
               builder: (BuildContext context, GameState state) {
                 return Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    PlayerBanner(player: state.players[1]),
+                    PlayerBanner(player: state.player2),
                     GameGridWidget(grid: state.grid),
-                    PlayerBanner(player: state.players[0]),
+                    PlayerBanner(player: state.player1),
                   ],
                 );
               },

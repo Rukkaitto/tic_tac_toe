@@ -15,4 +15,19 @@ class AppRoutes {
     path: 'my_button',
     name: 'MyButton',
   );
+
+  static const AppRoute gameLocalVsLocal = AppRoute(
+    path: 'local-vs-local',
+    name: 'LocalVsLocal',
+  );
+
+  static const AppRoute gameLocalVsComputer = AppRoute(
+    path: 'local-vs-computer',
+    name: 'LocalVsComputer',
+  );
+
+  static const AppRoute gameComputerVsComputer = AppRoute(
+    path: 'computer-vs-computer',
+    name: 'ComputerVsComputer',
+  );
 }

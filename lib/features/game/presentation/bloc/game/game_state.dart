@@ -3,70 +3,60 @@ part of 'game_cubit.dart';
 class GameState extends Equatable {
   const GameState({
     required this.grid,
-    required this.players,
-    this.currentPlayerId = 0,
+    required this.player1,
+    required this.player2,
+    required this.currentPlayer,
     this.isGameOver = false,
     this.winner,
-  }) : assert(players.length == 2);
+  });
 
   /// Generates a new [GameState] with the given [size] and [playerNames].
   factory GameState.initialize({
     required int size,
-    required List<String> playerNames,
+    required Player player1,
+    required Player player2,
   }) {
+    final Player currentPlayer = player1;
+
     return GameState(
       grid: GameGrid.generate(size: size),
-      players: playerNames
-          .asMap()
-          .entries
-          .map(
-            (MapEntry<int, String> entry) => Player(
-              index: entry.key,
-              name: entry.value,
-            ),
-          )
-          .toList(),
+      currentPlayer: currentPlayer,
+      player1: player1,
+      player2: player2,
     );
   }
 
   final GameGrid grid;
-  final List<Player> players;
-  final int currentPlayerId;
+  final Player player1;
+  final Player player2;
+  final Player currentPlayer;
   final bool isGameOver;
   final Player? winner;
 
   @override
   List<Object?> get props => <Object?>[
         grid,
-        players,
-        currentPlayerId,
+        player1,
+        player2,
+        currentPlayer,
         isGameOver,
         winner,
       ];
 
-  /// Returns `true` if it's the given [playerId]'s turn.
-  bool canIPlay(int playerId) => currentPlayerId == playerId && !isGameOver;
-
-  /// Returns the [GameGridCellValue] for the given [playerId].
-  GameGridCellValue getPlayerCellValue(int playerId) {
-    return players[playerId].index == 0
-        ? GameGridCellValue.cross
-        : GameGridCellValue.circle;
-  }
-
   /// Returns the [Player] who won the game.
   /// Returns `null` if no player has won yet.
-  Player? getWinner({required GameGrid grid, required List<Player> players}) {
+  Player? getWinner({
+    required GameGrid grid,
+    required Player player1,
+    required Player player2,
+  }) {
     Player? checkLine(List<GameGridCell> line) {
       if (line.every(
         (GameGridCell cell) =>
             cell.value != GameGridCellValue.empty &&
             cell.value == line.first.value,
       )) {
-        return players.firstWhereOrNull(
-          (Player player) =>
-              getPlayerCellValue(player.index) == line.first.value,
-        );
+        return line.first.value == GameGridCellValue.cross ? player1 : player2;
       }
       return null;
     }
@@ -86,49 +76,20 @@ class GameState extends Equatable {
     return winner;
   }
 
-  GameState play({
-    required int playerId,
-    required int index,
-  }) {
-    if (!canIPlay(playerId)) {
-      return this;
-    }
-
-    final GameGridCellValue cellValue = getPlayerCellValue(playerId);
-
-    final GameGrid newGrid = grid.setCellValue(cellValue, index: index);
-
-    final Player? winner = getWinner(grid: newGrid, players: players);
-
-    final bool isGameOver = winner != null || newGrid.isFull;
-
-    int? nextPlayerId;
-
-    if (!isGameOver) {
-      // Switch to the next player
-      nextPlayerId = (currentPlayerId + 1) % players.length;
-    }
-
-    return copyWith(
-      grid: newGrid,
-      currentPlayerId: nextPlayerId,
-      winner: winner,
-      isGameOver: isGameOver,
-    );
-  }
-
   /// Returns a copy of the [GameState] with the given [grid] and [players].
   GameState copyWith({
     GameGrid? grid,
-    List<Player>? players,
-    int? currentPlayerId,
+    Player? player1,
+    Player? player2,
+    Player? currentPlayer,
     bool? isGameOver,
     Player? winner,
   }) {
     return GameState(
+      player1: player1 ?? this.player1,
+      player2: player2 ?? this.player2,
       grid: grid ?? this.grid,
-      players: players ?? this.players,
-      currentPlayerId: currentPlayerId ?? this.currentPlayerId,
+      currentPlayer: currentPlayer ?? this.currentPlayer,
       isGameOver: isGameOver ?? this.isGameOver,
       winner: winner ?? this.winner,
     );

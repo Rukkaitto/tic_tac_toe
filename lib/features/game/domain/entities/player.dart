@@ -1,14 +1,25 @@
-import 'package:equatable/equatable.dart';
+import 'dart:async';
 
-class Player extends Equatable {
+import '../../presentation/bloc/game/game_cubit.dart';
+import 'entities.dart';
+
+abstract class Player {
   const Player({
     required this.name,
-    required this.index,
+    required this.cellValue,
   });
 
   final String name;
-  final int index;
+  final GameGridCellValue cellValue;
 
-  @override
-  List<Object?> get props => <Object?>[name, index];
+  Future<Move> play(GameState state);
+
+  /// Returns `true` if the player can play in the current state.
+  bool canPlay(GameState state) {
+    return this == state.currentPlayer && !state.isGameOver;
+  }
+
+  /// Returns the opponent of the player.
+  Player getOpponent(GameState state) =>
+      this == state.player1 ? state.player2 : state.player1;
 }
