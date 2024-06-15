@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:rive/rive.dart';
 
 import '../../../../core/services/asset_service/asset_service.dart';
 import '../../domain/entities/entities.dart';
@@ -34,8 +35,14 @@ class GameGridCellWidget extends StatelessWidget {
   Widget _buildIcon(GameGridCell cell) {
     return switch (cell.value) {
       GameGridCellValue.empty => const SizedBox(),
-      GameGridCellValue.cross => SvgPicture.asset(AssetService().svgs.cross),
-      GameGridCellValue.circle => SvgPicture.asset(AssetService().svgs.circle),
+      GameGridCellValue.cross => RiveAnimation.asset(
+          AssetService().rive.crossCircle,
+          artboard: 'Cross',
+        ),
+      GameGridCellValue.circle => RiveAnimation.asset(
+          AssetService().rive.crossCircle,
+          artboard: 'Circle',
+        )
     };
   }
 
