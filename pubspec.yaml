@@ -22,6 +22,7 @@ dependencies:
   google_fonts: ^6.2.1
   widget_mask: ^1.0.0+0
   flutter_svg: ^2.0.10+1
+  rive: ^0.13.7
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -32,3 +33,4 @@ flutter:
   assets:
     - lib/core/assets/images/
     - lib/core/assets/svgs/
+    - lib/core/assets/rive/

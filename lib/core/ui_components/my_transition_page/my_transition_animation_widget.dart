@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:widget_mask/widget_mask.dart';
+import 'package:rive/rive.dart';
 
 import '../../services/asset_service/asset_service.dart';
 
@@ -17,49 +16,30 @@ class MyTransitionAnimationWidget extends StatefulWidget {
 class _MyTransitionAnimationWidgetState
     extends State<MyTransitionAnimationWidget>
     with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _animation;
-
-  Widget _widgetMaskChild = Container();
+  Widget _backgroundWidget = const SizedBox();
   bool _isAnimationCompleted = false;
+
+  void onRiveEvent(RiveEvent event) {
+    switch (event.name) {
+      case 'switch_view':
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          setState(() {
+            _backgroundWidget = widget.child;
+          });
+        });
+      case 'completed':
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          setState(() {
+            _isAnimationCompleted = true;
+          });
+        });
+      default:
+    }
+  }
 
   @override
   void initState() {
-    _startAnimation();
     super.initState();
-  }
-
-  void _startAnimation() {
-    _controller = AnimationController(
-      duration: const Duration(seconds: 1),
-      vsync: this,
-    );
-
-    final Tween<double> tween = Tween<double>(begin: 10.0, end: 0.0);
-
-    final Animation<double> curvedAnimation = CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeInOut,
-    );
-
-    _animation = tween.animate(curvedAnimation);
-
-    // When the animation reaches its mid point, change the child widget
-    _animation.addStatusListener((AnimationStatus status) {
-      if (status == AnimationStatus.completed) {
-        setState(() {
-          _widgetMaskChild = widget.child;
-        });
-
-        _controller.reverse();
-      } else if (status == AnimationStatus.dismissed) {
-        setState(() {
-          _isAnimationCompleted = true;
-        });
-      }
-    });
-
-    _controller.forward();
   }
 
   @override
@@ -68,22 +48,23 @@ class _MyTransitionAnimationWidgetState
       return widget.child;
     }
 
-    return AnimatedBuilder(
-      animation: _animation,
-      child: _widgetMaskChild,
-      builder: (BuildContext context, Widget? child) {
-        return WidgetMask(
-          blendMode: BlendMode.dstIn,
-          mask: Transform.scale(
-            scale: _animation.value,
-            child: SvgPicture.asset(
-              AssetService().svgs.crossMask,
-              color: Colors.black,
-            ),
-          ),
-          child: child!,
-        );
-      },
+    return Stack(
+      children: <Widget>[
+        _backgroundWidget,
+        RiveAnimation.asset(
+          AssetService().rive.transition,
+          fit: BoxFit.cover,
+          onInit: (Artboard artboard) {
+            final StateMachineController? controller =
+                StateMachineController.fromArtboard(
+              artboard,
+              'State Machine 1',
+            );
+            controller?.addEventListener(onRiveEvent);
+            artboard.addController(controller!);
+          },
+        ),
+      ],
     );
   }
 }
