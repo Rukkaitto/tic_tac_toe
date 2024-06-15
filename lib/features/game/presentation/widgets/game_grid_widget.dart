@@ -10,18 +10,22 @@ class GameGridWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: grid.size,
+    return ColoredBox(
+      color: Colors.white,
+      child: GridView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        padding: EdgeInsets.zero,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: grid.size,
+        ),
+        itemCount: grid.length,
+        itemBuilder: (BuildContext context, int index) {
+          return GameGridCellWidget(
+            cell: grid.getCell(index),
+          );
+        },
       ),
-      itemCount: grid.length,
-      itemBuilder: (BuildContext context, int index) {
-        return GameGridCellWidget(
-          cell: grid.getCell(index),
-        );
-      },
     );
   }
 }
