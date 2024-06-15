@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:rive/rive.dart';
 
 import '../../../../core/services/asset_service/asset_service.dart';
@@ -51,10 +50,8 @@ class GameGridCellWidget extends StatelessWidget {
     return GestureDetector(
       onTap: () => _handleTap(context, cell: cell),
       child: Container(
+        color: Colors.white,
         alignment: Alignment.center,
-        decoration: BoxDecoration(
-          border: Border.all(),
-        ),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: _buildIcon(cell),

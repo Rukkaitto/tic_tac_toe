@@ -78,8 +78,10 @@ class GamePage extends StatelessWidget {
         listener: (BuildContext context, GameState state) =>
             _handleGameState(context, state: state),
         child: Scaffold(
+          extendBodyBehindAppBar: true,
           appBar: AppBar(
-            title: const Text('Tic Tac Toe'),
+            elevation: 0,
+            backgroundColor: Colors.transparent,
           ),
           body: ScrollingBackground(
             child: Padding(
