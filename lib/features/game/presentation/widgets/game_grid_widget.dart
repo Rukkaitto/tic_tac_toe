@@ -17,6 +17,11 @@ class GameGridWidget extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.black,
         borderRadius: BorderRadius.circular(kBorderRadius),
+        boxShadow: const <BoxShadow>[
+          BoxShadow(
+            offset: Offset(0.0, 10.0),
+          ),
+        ],
       ),
       padding: const EdgeInsets.all(kStrokeWidth),
       child: ClipRRect(

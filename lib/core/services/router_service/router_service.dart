@@ -41,12 +41,12 @@ class RouterService {
                 return MyTransitionPage<dynamic>(
                   child: GamePage(
                     player1: LocalPlayer(
-                      name: 'Player 1',
+                      name: 'Joueur 1',
                       cellValue: GameGridCellValue.cross,
                       completer: Completer<Move>(),
                     ),
                     player2: LocalPlayer(
-                      name: 'Player 2',
+                      name: 'Joueur 2',
                       cellValue: GameGridCellValue.circle,
                       completer: Completer<Move>(),
                     ),
@@ -61,12 +61,12 @@ class RouterService {
                 return MyTransitionPage<dynamic>(
                   child: GamePage(
                     player1: LocalPlayer(
-                      name: 'Player',
+                      name: 'Joueur',
                       cellValue: GameGridCellValue.cross,
                       completer: Completer<Move>(),
                     ),
                     player2: ComputerPlayer(
-                      name: 'Computer',
+                      name: 'Ordi',
                       cellValue: GameGridCellValue.circle,
                       difficulty: ComputerPlayerDifficulty.medium,
                     ),
@@ -81,12 +81,12 @@ class RouterService {
                 return MyTransitionPage<dynamic>(
                   child: GamePage(
                     player1: ComputerPlayer(
-                      name: 'Computer 1',
+                      name: 'Ordi 1',
                       cellValue: GameGridCellValue.cross,
                       difficulty: ComputerPlayerDifficulty.hard,
                     ),
                     player2: ComputerPlayer(
-                      name: 'Computer 2',
+                      name: 'Ordi 2',
                       cellValue: GameGridCellValue.circle,
                       difficulty: ComputerPlayerDifficulty.hard,
                     ),

@@ -84,23 +84,29 @@ class GamePage extends StatelessWidget {
             backgroundColor: Colors.transparent,
           ),
           body: ScrollingBackground(
-            child: Padding(
-              padding: const EdgeInsets.all(35),
-              child: BlocBuilder<GameCubit, GameState>(
-                builder: (BuildContext context, GameState state) {
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      PlayerBanner(player: state.player2),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10.0),
-                        child: GameGridWidget(grid: state.grid),
+            child: BlocBuilder<GameCubit, GameState>(
+              builder: (BuildContext context, GameState state) {
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      child: PlayerBanner(player: state.player2),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20.0,
+                        vertical: 30.0,
                       ),
-                      PlayerBanner(player: state.player1),
-                    ],
-                  );
-                },
-              ),
+                      child: GameGridWidget(grid: state.grid),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      child: PlayerBanner(player: state.player1),
+                    ),
+                  ],
+                );
+              },
             ),
           ),
         ),
