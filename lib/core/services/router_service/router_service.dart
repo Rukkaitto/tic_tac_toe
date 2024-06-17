@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:widget_mask/widget_mask.dart';
 
 import '../../../features/game/domain/entities/entities.dart';
 import '../../../features/game/presentation/pages/game_page.dart';
@@ -140,30 +139,5 @@ class RouterService {
 
   void pop<T extends Object?>([T? result]) {
     router.pop<T>(result);
-  }
-}
-
-class CutoutWidget extends StatelessWidget {
-  const CutoutWidget({
-    super.key,
-    required this.cutoutImage,
-    required this.scale,
-    required this.child,
-  });
-
-  final String cutoutImage;
-  final double scale;
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    return WidgetMask(
-      blendMode: BlendMode.dstIn,
-      mask: Transform.scale(
-        scale: scale,
-        child: Image.asset(cutoutImage),
-      ),
-      child: child,
-    );
   }
 }
