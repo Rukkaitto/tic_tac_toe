@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../raised_container/raised_container.dart';
+
 class MyButton extends StatefulWidget {
   const MyButton({required this.text, required this.onPressed, super.key});
 
@@ -40,21 +42,8 @@ class _MyButtonState extends State<MyButton> {
         duration: const Duration(milliseconds: 400),
         scale: _scale,
         curve: Curves.elasticOut,
-        child: Container(
+        child: RaisedContainer(
           height: 80.0,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(25),
-            border: Border.all(
-              width: 5.0,
-            ),
-            boxShadow: const <BoxShadow>[
-              BoxShadow(
-                offset: Offset(7.0, 5.0),
-              ),
-            ],
-          ),
           child: Text(
             widget.text,
             style: GoogleFonts.jost(

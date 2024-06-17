@@ -8,20 +8,44 @@ class GameGridWidget extends StatelessWidget {
 
   final GameGrid grid;
 
+  static const double kStrokeWidth = 5.0;
+  static const double kBorderRadius = 12.0;
+
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: grid.size,
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.black,
+        borderRadius: BorderRadius.circular(kBorderRadius),
+        boxShadow: const <BoxShadow>[
+          BoxShadow(
+            offset: Offset(0.0, 10.0),
+          ),
+        ],
       ),
-      itemCount: grid.length,
-      itemBuilder: (BuildContext context, int index) {
-        return GameGridCellWidget(
-          cell: grid.getCell(index),
-        );
-      },
+      padding: const EdgeInsets.all(kStrokeWidth),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(kBorderRadius),
+        child: ColoredBox(
+          color: Colors.black,
+          child: GridView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            padding: EdgeInsets.zero,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: grid.size,
+              mainAxisSpacing: kStrokeWidth,
+              crossAxisSpacing: kStrokeWidth,
+            ),
+            itemCount: grid.length,
+            itemBuilder: (BuildContext context, int index) {
+              return GameGridCellWidget(
+                cell: grid.getCell(index),
+              );
+            },
+          ),
+        ),
+      ),
     );
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/ui_components/scrolling_background/scrolling_background.dart';
 import '../../domain/entities/entities.dart';
 import '../bloc/game/game_cubit.dart';
 import '../widgets/widgets.dart';
@@ -37,7 +38,7 @@ class GamePage extends StatelessWidget {
                       Navigator.of(context).pop();
                       context.read<GameCubit>().resetGame();
                     },
-                    child: const Text('Restart Game'),
+                    child: const Text('Restart'),
                   ),
                 ],
               );
@@ -48,6 +49,24 @@ class GamePage extends StatelessWidget {
     );
   }
 
+  void _handleGameState(BuildContext context, {required GameState state}) {
+    if (state.isGameOver) {
+      if (state.winner != null) {
+        _handleGameEnd(
+          context,
+          title: 'Game Over',
+          content: '${state.winner!.name} wins!',
+        );
+      } else {
+        _handleGameEnd(
+          context,
+          title: 'Game Over',
+          content: "It's a draw!",
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider<GameCubit>(
@@ -56,39 +75,35 @@ class GamePage extends StatelessWidget {
         player2: player2,
       )..startGame(),
       child: BlocListener<GameCubit, GameState>(
-        listener: (BuildContext context, GameState state) {
-          if (state.isGameOver) {
-            if (state.winner != null) {
-              _handleGameEnd(
-                context,
-                title: 'Game Over',
-                content: '${state.winner!.name} wins!',
-              );
-            } else {
-              _handleGameEnd(
-                context,
-                title: 'Game Over',
-                content: "It's a draw!",
-              );
-            }
-
-            return;
-          }
-        },
+        listener: (BuildContext context, GameState state) =>
+            _handleGameState(context, state: state),
         child: Scaffold(
+          extendBodyBehindAppBar: true,
           appBar: AppBar(
-            title: const Text('Tic Tac Toe'),
+            elevation: 0,
+            backgroundColor: Colors.transparent,
           ),
-          body: Padding(
-            padding: const EdgeInsets.all(35),
+          body: ScrollingBackground(
             child: BlocBuilder<GameCubit, GameState>(
               builder: (BuildContext context, GameState state) {
                 return Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    PlayerBanner(player: state.player2),
-                    GameGridWidget(grid: state.grid),
-                    PlayerBanner(player: state.player1),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      child: PlayerBanner(player: state.player2),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20.0,
+                        vertical: 30.0,
+                      ),
+                      child: GameGridWidget(grid: state.grid),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      child: PlayerBanner(player: state.player1),
+                    ),
                   ],
                 );
               },
