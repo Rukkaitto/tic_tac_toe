@@ -4,9 +4,11 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'core/services/dependency_injection_service/dependency_injection_service.dart';
 import 'core/services/router_service/router_service.dart';
 
-void main() {
+Future<void> main() async {
+  await DependencyInjectionService().inject();
   runApp(MyApp());
 }
 

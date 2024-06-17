@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/constants/widget_keys.dart';
 import '../../../../core/services/router_service/app_routes.dart';
 import '../../../../core/services/router_service/router_service.dart';
 import '../../../../core/ui_components/my_button/my_button.dart';
@@ -18,6 +19,7 @@ class HomePage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               MyButton(
+                key: WidgetKeys.playerVsPlayerButton,
                 text: 'Joueur vs. Joueur',
                 onPressed: () {
                   RouterService.of(context).go(AppRoutes.gameLocalVsLocal);

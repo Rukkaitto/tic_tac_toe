@@ -23,10 +23,13 @@ dependencies:
   widget_mask: ^1.0.0+0
   flutter_svg: ^2.0.10+1
   rive: ^0.13.7
+  get_it: ^7.7.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^3.0.0
+  integration_test:
+    sdk: flutter
 flutter:
   generate: true
   uses-material-design: true

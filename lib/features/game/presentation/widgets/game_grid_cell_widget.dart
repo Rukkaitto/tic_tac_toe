@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rive/rive.dart';
 
 import '../../../../core/constants/artboards.dart';
+import '../../../../core/constants/widget_keys.dart';
 import '../../../../core/services/asset_service/asset_service.dart';
 import '../../domain/entities/entities.dart';
 import '../bloc/game/game_cubit.dart';
@@ -36,10 +37,12 @@ class GameGridCellWidget extends StatelessWidget {
     return switch (cell.value) {
       GameGridCellValue.empty => const SizedBox(),
       GameGridCellValue.cross => RiveAnimation.asset(
+          key: WidgetKeys.gridCellValue(cell.index),
           AssetService().rive.crossCircleLoader,
           artboard: kCrossArtboard,
         ),
       GameGridCellValue.circle => RiveAnimation.asset(
+          key: WidgetKeys.gridCellValue(cell.index),
           AssetService().rive.crossCircleLoader,
           artboard: kCircleArtboard,
         )
@@ -49,6 +52,7 @@ class GameGridCellWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      key: WidgetKeys.gridCell(cell.index),
       onTap: () => _handleTap(context, cell: cell),
       child: Container(
         color: Colors.white,
