@@ -6,6 +6,8 @@ import 'package:rive/rive.dart';
 
 import '../../../../core/constants/artboards.dart';
 import '../../../../core/services/asset_service/asset_service.dart';
+import '../../../../core/services/dependency_injection_service/dependency_injection_service.dart';
+import '../../../../core/services/enviromnent_service/environment_service.dart';
 import '../../../../core/ui_components/raised_container/raised_container.dart';
 import '../../domain/entities/entities.dart';
 import '../bloc/game/game_cubit.dart';
@@ -16,6 +18,11 @@ class PlayerBanner extends StatelessWidget {
   final Player player;
 
   Widget _buildLoader() {
+    // Don't show the loader in UI tests to avoid infinite pumpWidget
+    if (sl<EnvironmentService>().isUITest) {
+      return const SizedBox();
+    }
+
     return BlocBuilder<GameCubit, GameState>(
       builder: (BuildContext context, GameState state) {
         if (player.canPlay(state)) {

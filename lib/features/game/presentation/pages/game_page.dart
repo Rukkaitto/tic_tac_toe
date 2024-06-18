@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/constants/widget_keys.dart';
 import '../../../../core/ui_components/scrolling_background/scrolling_background.dart';
 import '../../domain/entities/entities.dart';
 import '../bloc/game/game_cubit.dart';
@@ -21,6 +22,7 @@ class GamePage extends StatelessWidget {
     BuildContext context, {
     required String title,
     required String content,
+    required Key key,
   }) {
     showDialog<void>(
       context: context,
@@ -32,6 +34,7 @@ class GamePage extends StatelessWidget {
               return CupertinoAlertDialog(
                 title: Text(title),
                 content: Text(content),
+                key: key,
                 actions: <CupertinoDialogAction>[
                   CupertinoDialogAction(
                     onPressed: () {
@@ -56,12 +59,14 @@ class GamePage extends StatelessWidget {
           context,
           title: 'Game Over',
           content: '${state.winner!.name} wins!',
+          key: WidgetKeys.winnerDialog,
         );
       } else {
         _handleGameEnd(
           context,
           title: 'Game Over',
           content: "It's a draw!",
+          key: WidgetKeys.tieDialog,
         );
       }
     }

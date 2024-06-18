@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../services/asset_service/asset_service.dart';
+import '../../services/dependency_injection_service/dependency_injection_service.dart';
+import '../../services/enviromnent_service/environment_service.dart';
 
 class ScrollingBackground extends StatefulWidget {
   const ScrollingBackground({
@@ -24,11 +26,16 @@ class _ScrollingBackgroundState extends State<ScrollingBackground>
       duration: const Duration(seconds: 16),
       upperBound: 512,
       vsync: this,
-    )..repeat();
+    );
 
     _controller!.addListener(() {
       setState(() {});
     });
+
+    // Don't animate the background in UI tests to avoid infinite pumpWidget
+    if (!sl<EnvironmentService>().isUITest) {
+      _controller!.repeat();
+    }
 
     super.initState();
   }
