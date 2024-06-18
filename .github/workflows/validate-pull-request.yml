@@ -43,3 +43,12 @@ jobs:
 
     - name: Run tests
       run: flutter test
+
+  build:
+    name: Build
+    runs-on: macos-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      run: fastlane ios build
