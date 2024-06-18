@@ -51,4 +51,6 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
+
+    - name: Build APK
       run: fastlane ios build
