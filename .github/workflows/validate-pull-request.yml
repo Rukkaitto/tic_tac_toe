@@ -5,6 +5,9 @@ on:
     branches:
       - develop
 
+env:
+  flutter_version: "3.22.2"
+
 jobs:
   analyze:
     name: Analyze
@@ -23,7 +26,7 @@ jobs:
     - name: Set up Flutter
       uses: subosito/flutter-action@v2
       with:
-        channel: stable
+        flutter-version: ${{ env.flutter_version }}
 
     - name: Install dependencies
       run: flutter pub get
