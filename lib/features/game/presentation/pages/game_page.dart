@@ -1,11 +1,12 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../../core/constants/widget_keys.dart';
 import '../../../../core/ui_components/scrolling_background/scrolling_background.dart';
 import '../../domain/entities/entities.dart';
 import '../bloc/game/game_cubit.dart';
+import '../widgets/game_end_dialog.dart';
 import '../widgets/widgets.dart';
 
 class GamePage extends StatelessWidget {
@@ -29,23 +30,10 @@ class GamePage extends StatelessWidget {
       builder: (_) {
         return BlocProvider<GameCubit>.value(
           value: BlocProvider.of<GameCubit>(context),
-          child: Builder(
-            builder: (BuildContext context) {
-              return CupertinoAlertDialog(
-                title: Text(title),
-                content: Text(content),
-                key: key,
-                actions: <CupertinoDialogAction>[
-                  CupertinoDialogAction(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                      context.read<GameCubit>().resetGame();
-                    },
-                    child: const Text('Restart'),
-                  ),
-                ],
-              );
-            },
+          child: GameEndDialog(
+            title: title,
+            content: content,
+            key: key,
           ),
         );
       },
@@ -57,15 +45,16 @@ class GamePage extends StatelessWidget {
       if (state.winner != null) {
         _handleGameEnd(
           context,
-          title: 'Game Over',
-          content: '${state.winner!.name} wins!',
+          title: AppLocalizations.of(context)!.gameOverTitle,
+          content: AppLocalizations.of(context)!
+              .gameOverWinMessage(state.winner!.name),
           key: WidgetKeys.winnerDialog,
         );
       } else {
         _handleGameEnd(
           context,
-          title: 'Game Over',
-          content: "It's a draw!",
+          title: AppLocalizations.of(context)!.gameOverTitle,
+          content: AppLocalizations.of(context)!.gameOverTieMessage,
           key: WidgetKeys.tieDialog,
         );
       }

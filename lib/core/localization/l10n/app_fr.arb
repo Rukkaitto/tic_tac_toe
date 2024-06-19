@@ -1,3 +1,42 @@
 {
-  "helloWorld": "Hello world!"
+  "playerVsPlayer": "Joueur vs. Joueur",
+  "playerVsComputer": "Joueur vs. Ordi",
+  "computerVsComputer": "Ordi vs. Ordi",
+
+  "difficultyEasy": "Facile",
+  "difficultyMedium": "Moyen",
+  "difficultyHard": "Difficile",
+
+  "playerNameNumber": "Joueur {number}",
+  "@playerNameNumber": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+
+  "computerNameNumber": "Ordi {number}",
+  "@computerNameNumber": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+
+  "playerName": "Player",
+  "computerName": "Ordi",
+
+  "gameOverTitle": "Partie terminée",
+  "gameOverWinMessage": "{playerName} a gagné !",
+  "@gameOverWinMessage": {
+    "placeholders": {
+      "playerName": {
+        "type": "String"
+      }
+    }
+  },
+  "gameOverTieMessage": "Match nul !",
+  "gameOverPlayAgain": "Rejouer"
 }

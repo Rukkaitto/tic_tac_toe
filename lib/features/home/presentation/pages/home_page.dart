@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../../core/constants/widget_keys.dart';
 import '../../../../core/services/router_service/router_service.dart';
@@ -20,21 +21,21 @@ class HomePage extends StatelessWidget {
             children: <Widget>[
               MyButton(
                 key: WidgetKeys.playerVsPlayerButton,
-                text: 'Joueur vs. Joueur',
+                text: AppLocalizations.of(context)!.playerVsPlayer,
                 onPressed: () {
                   RouterService.of(context).go(AppRoutes.gameLocalVsLocal);
                 },
               ),
               const SizedBox(height: 20),
               MyButton(
-                text: 'Joueur vs. Ordi',
+                text: AppLocalizations.of(context)!.playerVsComputer,
                 onPressed: () {
                   RouterService.of(context).go(AppRoutes.computerDifficulty);
                 },
               ),
               const SizedBox(height: 20),
               MyButton(
-                text: 'Ordi vs. Ordi',
+                text: AppLocalizations.of(context)!.computerVsComputer,
                 onPressed: () {
                   RouterService.of(context)
                       .go(AppRoutes.gameComputerVsComputer);
