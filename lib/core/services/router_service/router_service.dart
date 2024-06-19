@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../features/game/domain/entities/entities.dart';
@@ -43,12 +44,12 @@ class RouterService {
                 return MyTransitionPage<dynamic>(
                   child: GamePage(
                     player1: LocalPlayer(
-                      name: 'Joueur 1',
+                      name: AppLocalizations.of(context)!.playerNameNumber(1),
                       cellValue: GameGridCellValue.cross,
                       completer: Completer<Move>(),
                     ),
                     player2: LocalPlayer(
-                      name: 'Joueur 2',
+                      name: AppLocalizations.of(context)!.playerNameNumber(2),
                       cellValue: GameGridCellValue.circle,
                       completer: Completer<Move>(),
                     ),
@@ -75,12 +76,12 @@ class RouterService {
                     return MyTransitionPage<dynamic>(
                       child: GamePage(
                         player1: LocalPlayer(
-                          name: 'Joueur',
+                          name: AppLocalizations.of(context)!.playerName,
                           cellValue: GameGridCellValue.cross,
                           completer: Completer<Move>(),
                         ),
                         player2: ComputerPlayer(
-                          name: 'Ordi',
+                          name: AppLocalizations.of(context)!.computerName,
                           cellValue: GameGridCellValue.circle,
                           difficulty: queryParams.getComputerPlayerDifficulty(
                             QueryParamKeys.difficulty,
@@ -99,12 +100,12 @@ class RouterService {
                 return MyTransitionPage<dynamic>(
                   child: GamePage(
                     player1: ComputerPlayer(
-                      name: 'Ordi 1',
+                      name: AppLocalizations.of(context)!.computerNameNumber(1),
                       cellValue: GameGridCellValue.cross,
                       difficulty: ComputerPlayerDifficulty.hard,
                     ),
                     player2: ComputerPlayer(
-                      name: 'Ordi 2',
+                      name: AppLocalizations.of(context)!.computerNameNumber(2),
                       cellValue: GameGridCellValue.circle,
                       difficulty: ComputerPlayerDifficulty.hard,
                     ),

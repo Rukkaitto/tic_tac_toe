@@ -1,21 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:rive/rive.dart';
 
-import '../../../../core/constants/artboards.dart';
+import '../../../../core/constants/rive/rive.dart';
+import '../../../../core/constants/text_styles.dart';
 import '../../../../core/services/asset_service/asset_service.dart';
 import '../../../../core/services/dependency_injection_service/dependency_injection_service.dart';
 import '../../../../core/services/enviromnent_service/environment_service.dart';
 import '../../../../core/ui_components/raised_container/raised_container.dart';
 import '../../domain/entities/entities.dart';
 import '../bloc/game/game_cubit.dart';
+import '../extensions/game_grid_cell_value_extension.dart';
 
 class PlayerBanner extends StatelessWidget {
   const PlayerBanner({super.key, required this.player});
 
   final Player player;
+
+  static const double _iconSize = 50;
+  static const double _height = 80;
+  static const double _horizontalPadding = 25;
+  static const double _iconPadding = 10;
 
   Widget _buildLoader() {
     // Don't show the loader in UI tests to avoid infinite pumpWidget
@@ -27,11 +32,11 @@ class PlayerBanner extends StatelessWidget {
       builder: (BuildContext context, GameState state) {
         if (player.canPlay(state)) {
           return SizedBox(
-            width: 50,
-            height: 50,
+            width: _iconSize,
+            height: _iconSize,
             child: RiveAnimation.asset(
               AssetService().rive.crossCircleLoader,
-              artboard: kLoaderArtboard,
+              artboard: RiveArtboards.Loader,
             ),
           );
         }
@@ -44,40 +49,20 @@ class PlayerBanner extends StatelessWidget {
   Widget _buildPlayerName() {
     return Text(
       player.name,
-      style: GoogleFonts.jost(
-        color: Colors.black,
-        fontSize: 32.0,
-        fontWeight: FontWeight.w700,
-      ),
+      style: TextStyles.title,
     );
-  }
-
-  Widget _buildPlayerIcon() {
-    return switch (player.cellValue) {
-      GameGridCellValue.cross => SvgPicture.asset(
-          AssetService().svgs.cross,
-          width: 50,
-          height: 50,
-        ),
-      GameGridCellValue.circle => SvgPicture.asset(
-          AssetService().svgs.circle,
-          width: 50,
-          height: 50,
-        ),
-      GameGridCellValue.empty => const SizedBox(),
-    };
   }
 
   @override
   Widget build(BuildContext context) {
     return RaisedContainer(
-      height: 80.0,
+      height: _height,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 25),
+        padding: const EdgeInsets.symmetric(horizontal: _horizontalPadding),
         child: Row(
           children: <Widget>[
-            _buildPlayerIcon(),
-            const SizedBox(width: 10),
+            player.cellValue.icon(iconSize: _iconSize),
+            const SizedBox(width: _iconPadding),
             _buildPlayerName(),
             const Spacer(),
             _buildLoader(),

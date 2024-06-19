@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:equatable/equatable.dart';
 
-import 'entities.dart';
+import '../entities.dart';
 
 class GameGrid extends Equatable {
   const GameGrid._({

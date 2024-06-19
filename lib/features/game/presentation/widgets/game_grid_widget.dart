@@ -8,34 +8,36 @@ class GameGridWidget extends StatelessWidget {
 
   final GameGrid grid;
 
-  static const double kStrokeWidth = 5.0;
-  static const double kBorderRadius = 12.0;
+  static const double _strokeWidth = 5.0;
+  static const double _borderRadius = 12.0;
+  static const Offset _shadowOffset = Offset(0.0, 10.0);
+  static const Color _borderColor = Colors.black;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.black,
-        borderRadius: BorderRadius.circular(kBorderRadius),
+        color: _borderColor,
+        borderRadius: BorderRadius.circular(_borderRadius),
         boxShadow: const <BoxShadow>[
           BoxShadow(
-            offset: Offset(0.0, 10.0),
+            offset: _shadowOffset,
           ),
         ],
       ),
-      padding: const EdgeInsets.all(kStrokeWidth),
+      padding: const EdgeInsets.all(_strokeWidth),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(kBorderRadius),
+        borderRadius: BorderRadius.circular(_borderRadius),
         child: ColoredBox(
-          color: Colors.black,
+          color: _borderColor,
           child: GridView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             padding: EdgeInsets.zero,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: grid.size,
-              mainAxisSpacing: kStrokeWidth,
-              crossAxisSpacing: kStrokeWidth,
+              mainAxisSpacing: _strokeWidth,
+              crossAxisSpacing: _strokeWidth,
             ),
             itemCount: grid.length,
             itemBuilder: (BuildContext context, int index) {

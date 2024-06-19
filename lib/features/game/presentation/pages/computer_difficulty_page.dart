@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../../core/services/router_service/params/query_param_keys.dart';
 import '../../../../core/services/router_service/router_service.dart';
@@ -9,6 +10,9 @@ import '../../domain/entities/entities.dart';
 
 class ComputerDifficultyPage extends StatelessWidget {
   const ComputerDifficultyPage({super.key});
+
+  static const double _horizontalPadding = 20;
+  static const double _buttonSpacing = 20;
 
   void _goToGamePage(
     BuildContext context,
@@ -32,26 +36,26 @@ class ComputerDifficultyPage extends StatelessWidget {
       ),
       body: ScrollingBackground(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
+          padding: const EdgeInsets.symmetric(horizontal: _horizontalPadding),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               MyButton(
-                text: 'Facile',
+                text: AppLocalizations.of(context)!.difficultyEasy,
                 onPressed: () {
                   _goToGamePage(context, ComputerPlayerDifficulty.easy);
                 },
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: _buttonSpacing),
               MyButton(
-                text: 'Moyen',
+                text: AppLocalizations.of(context)!.difficultyMedium,
                 onPressed: () {
                   _goToGamePage(context, ComputerPlayerDifficulty.medium);
                 },
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: _buttonSpacing),
               MyButton(
-                text: 'Difficile',
+                text: AppLocalizations.of(context)!.difficultyHard,
                 onPressed: () {
                   _goToGamePage(context, ComputerPlayerDifficulty.hard);
                 },

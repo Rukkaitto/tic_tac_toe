@@ -12,6 +12,10 @@ class RaisedContainer extends StatelessWidget {
   final double? width;
   final double? height;
 
+  static const double _borderWidth = 5.0;
+  static const double _borderRadius = 25.0;
+  static const Offset _shadowOffset = Offset(7.0, 5.0);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -20,13 +24,13 @@ class RaisedContainer extends StatelessWidget {
       alignment: Alignment.center,
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(25),
+        borderRadius: BorderRadius.circular(_borderRadius),
         border: Border.all(
-          width: 5.0,
+          width: _borderWidth,
         ),
         boxShadow: const <BoxShadow>[
           BoxShadow(
-            offset: Offset(7.0, 5.0),
+            offset: _shadowOffset,
           ),
         ],
       ),

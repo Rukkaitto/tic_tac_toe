@@ -20,11 +20,15 @@ class _ScrollingBackgroundState extends State<ScrollingBackground>
     with SingleTickerProviderStateMixin {
   late AnimationController? _controller;
 
+  static const Duration _duration = Duration(seconds: 16);
+  static const double _upperBound = 512;
+  static const double _size = 2048;
+
   @override
   void initState() {
     _controller = AnimationController(
-      duration: const Duration(seconds: 16),
-      upperBound: 512,
+      duration: _duration,
+      upperBound: _upperBound,
       vsync: this,
     );
 
@@ -56,8 +60,8 @@ class _ScrollingBackgroundState extends State<ScrollingBackground>
             top: -_controller!.value,
             left: -_controller!.value,
             child: SizedBox(
-              width: 2048,
-              height: 2048,
+              width: _size,
+              height: _size,
               child: Image.asset(
                 AssetService().images.backgroundTile,
                 repeat: ImageRepeat.repeat,

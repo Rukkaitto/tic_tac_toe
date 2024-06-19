@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import '../../presentation/bloc/game/game_cubit.dart';
-import 'entities.dart';
+import '../../../presentation/bloc/game/game_cubit.dart';
+import '../entities.dart';
 
 class LocalPlayer extends Player {
   LocalPlayer({
