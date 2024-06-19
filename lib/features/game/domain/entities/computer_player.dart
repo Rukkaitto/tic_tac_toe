@@ -7,9 +7,9 @@ import 'entities.dart';
 class ComputerPlayer extends Player {
   ComputerPlayer({
     required super.cellValue,
-    required this.difficulty,
+    ComputerPlayerDifficulty? difficulty,
     required super.name,
-  });
+  }) : difficulty = difficulty ?? ComputerPlayerDifficulty.easy;
 
   final Random _random = Random();
   final ComputerPlayerDifficulty difficulty;

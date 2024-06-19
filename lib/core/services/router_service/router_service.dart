@@ -4,13 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../features/game/domain/entities/entities.dart';
+import '../../../features/game/presentation/pages/computer_difficulty_page.dart';
 import '../../../features/game/presentation/pages/game_page.dart';
 import '../../../features/home/presentation/pages/home_page.dart';
 import '../../../features/uikit/presentation/pages/uikit_page.dart';
 import '../../ui_components/my_button/demo_page.dart';
 import '../../ui_components/my_transition_page/my_transition_page.dart';
-import 'app_route.dart';
-import 'app_routes.dart';
+import 'params/query_param_keys.dart';
+import 'params/query_params.dart';
+import 'routes/app_route.dart';
+import 'routes/app_routes.dart';
 
 class RouterService {
   RouterService(this.context, this.router);
@@ -54,24 +57,40 @@ class RouterService {
               },
             ),
             GoRoute(
-              name: AppRoutes.gameLocalVsComputer.name,
-              path: AppRoutes.gameLocalVsComputer.path,
+              name: AppRoutes.computerDifficulty.name,
+              path: AppRoutes.computerDifficulty.path,
               pageBuilder: (BuildContext context, GoRouterState state) {
                 return MyTransitionPage<dynamic>(
-                  child: GamePage(
-                    player1: LocalPlayer(
-                      name: 'Joueur',
-                      cellValue: GameGridCellValue.cross,
-                      completer: Completer<Move>(),
-                    ),
-                    player2: ComputerPlayer(
-                      name: 'Ordi',
-                      cellValue: GameGridCellValue.circle,
-                      difficulty: ComputerPlayerDifficulty.medium,
-                    ),
-                  ),
+                  child: const ComputerDifficultyPage(),
                 );
               },
+              routes: <GoRoute>[
+                GoRoute(
+                  name: AppRoutes.gameLocalVsComputer.name,
+                  path: AppRoutes.gameLocalVsComputer.path,
+                  pageBuilder: (BuildContext context, GoRouterState state) {
+                    final QueryParams queryParams =
+                        QueryParams(state.uri.queryParameters);
+
+                    return MyTransitionPage<dynamic>(
+                      child: GamePage(
+                        player1: LocalPlayer(
+                          name: 'Joueur',
+                          cellValue: GameGridCellValue.cross,
+                          completer: Completer<Move>(),
+                        ),
+                        player2: ComputerPlayer(
+                          name: 'Ordi',
+                          cellValue: GameGridCellValue.circle,
+                          difficulty: queryParams.getComputerPlayerDifficulty(
+                            QueryParamKeys.difficulty,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ],
             ),
             GoRoute(
               name: AppRoutes.gameComputerVsComputer.name,
