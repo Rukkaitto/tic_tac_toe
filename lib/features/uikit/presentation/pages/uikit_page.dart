@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../../core/services/router_service/app_routes.dart';
 import '../../../../core/services/router_service/router_service.dart';
+import '../../../../core/services/router_service/routes/app_routes.dart';
 
 class UIKitPage extends StatelessWidget {
   const UIKitPage({super.key});

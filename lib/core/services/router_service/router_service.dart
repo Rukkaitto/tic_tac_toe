@@ -10,8 +10,10 @@ import '../../../features/home/presentation/pages/home_page.dart';
 import '../../../features/uikit/presentation/pages/uikit_page.dart';
 import '../../ui_components/my_button/demo_page.dart';
 import '../../ui_components/my_transition_page/my_transition_page.dart';
-import 'app_route.dart';
-import 'app_routes.dart';
+import 'params/query_param_keys.dart';
+import 'params/query_params.dart';
+import 'routes/app_route.dart';
+import 'routes/app_routes.dart';
 
 class RouterService {
   RouterService(this.context, this.router);
@@ -67,12 +69,8 @@ class RouterService {
                   name: AppRoutes.gameLocalVsComputer.name,
                   path: AppRoutes.gameLocalVsComputer.path,
                   pageBuilder: (BuildContext context, GoRouterState state) {
-                    final String? difficulty =
-                        state.uri.queryParameters['difficulty'];
-                    final int? difficultyInt = int.tryParse(difficulty ?? '');
-
-                    final ComputerPlayerDifficulty computerPlayerDifficulty =
-                        ComputerPlayerDifficulty.values[difficultyInt ?? 0];
+                    final QueryParams queryParams =
+                        QueryParams(state.uri.queryParameters);
 
                     return MyTransitionPage<dynamic>(
                       child: GamePage(
@@ -84,7 +82,9 @@ class RouterService {
                         player2: ComputerPlayer(
                           name: 'Ordi',
                           cellValue: GameGridCellValue.circle,
-                          difficulty: computerPlayerDifficulty,
+                          difficulty: queryParams.getComputerPlayerDifficulty(
+                            QueryParamKeys.difficulty,
+                          ),
                         ),
                       ),
                     );

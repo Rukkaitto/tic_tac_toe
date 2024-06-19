@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/services/router_service/app_routes.dart';
+import '../../../../core/services/router_service/params/query_param_keys.dart';
 import '../../../../core/services/router_service/router_service.dart';
+import '../../../../core/services/router_service/routes/app_routes.dart';
 import '../../../../core/ui_components/my_button/my_button.dart';
 import '../../../../core/ui_components/scrolling_background/scrolling_background.dart';
 import '../../domain/entities/entities.dart';
@@ -16,7 +17,7 @@ class ComputerDifficultyPage extends StatelessWidget {
     RouterService.of(context).go(
       AppRoutes.gameLocalVsComputer,
       queryParameters: <String, dynamic>{
-        'difficulty': difficulty.index.toString(),
+        QueryParamKeys.difficulty: difficulty.index.toString(),
       },
     );
   }
