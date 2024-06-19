@@ -4,7 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rive/rive.dart';
 
-import '../../../../core/constants/artboards.dart';
+import '../../../../core/constants/rive_artboards.dart';
 import '../../../../core/services/asset_service/asset_service.dart';
 import '../../../../core/services/dependency_injection_service/dependency_injection_service.dart';
 import '../../../../core/services/enviromnent_service/environment_service.dart';
@@ -31,7 +31,7 @@ class PlayerBanner extends StatelessWidget {
             height: 50,
             child: RiveAnimation.asset(
               AssetService().rive.crossCircleLoader,
-              artboard: kLoaderArtboard,
+              artboard: RiveArtboards.Loader,
             ),
           );
         }

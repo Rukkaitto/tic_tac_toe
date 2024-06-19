@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rive/rive.dart';
 
-import '../../../../core/constants/artboards.dart';
+import '../../../../core/constants/rive_artboards.dart';
 import '../../../../core/constants/widget_keys.dart';
 import '../../../../core/services/asset_service/asset_service.dart';
 import '../../domain/entities/entities.dart';
@@ -39,12 +39,12 @@ class GameGridCellWidget extends StatelessWidget {
       GameGridCellValue.cross => RiveAnimation.asset(
           key: WidgetKeys.gridCellValue(cell.index),
           AssetService().rive.crossCircleLoader,
-          artboard: kCrossArtboard,
+          artboard: RiveArtboards.Cross,
         ),
       GameGridCellValue.circle => RiveAnimation.asset(
           key: WidgetKeys.gridCellValue(cell.index),
           AssetService().rive.crossCircleLoader,
-          artboard: kCircleArtboard,
+          artboard: RiveArtboards.Circle,
         )
     };
   }
