@@ -15,7 +15,6 @@ class GameEndDialog extends StatelessWidget {
     return CupertinoAlertDialog(
       title: Text(title),
       content: Text(content),
-      key: key,
       actions: <CupertinoDialogAction>[
         CupertinoDialogAction(
           onPressed: () {
