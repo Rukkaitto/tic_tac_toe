@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:rive/rive.dart';
 
 import '../../../../core/constants/rive_artboards.dart';
+import '../../../../core/constants/text_styles.dart';
 import '../../../../core/services/asset_service/asset_service.dart';
 import '../../../../core/services/dependency_injection_service/dependency_injection_service.dart';
 import '../../../../core/services/enviromnent_service/environment_service.dart';
@@ -44,11 +44,7 @@ class PlayerBanner extends StatelessWidget {
   Widget _buildPlayerName() {
     return Text(
       player.name,
-      style: GoogleFonts.jost(
-        color: Colors.black,
-        fontSize: 32.0,
-        fontWeight: FontWeight.w700,
-      ),
+      style: TextStyles.title,
     );
   }
 

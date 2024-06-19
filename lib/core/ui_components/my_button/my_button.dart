@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
 
+import '../../constants/text_styles.dart';
 import '../raised_container/raised_container.dart';
 
 class MyButton extends StatefulWidget {
@@ -46,11 +46,7 @@ class _MyButtonState extends State<MyButton> {
           height: 80.0,
           child: Text(
             widget.text,
-            style: GoogleFonts.jost(
-              color: Colors.black,
-              fontSize: 32.0,
-              fontWeight: FontWeight.w700,
-            ),
+            style: TextStyles.title,
           ),
         ),
       ),
