@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../features/game/domain/entities/entities.dart';
+import '../../../features/game/presentation/pages/computer_difficulty_page.dart';
 import '../../../features/game/presentation/pages/game_page.dart';
 import '../../../features/home/presentation/pages/home_page.dart';
 import '../../../features/uikit/presentation/pages/uikit_page.dart';
@@ -54,24 +55,42 @@ class RouterService {
               },
             ),
             GoRoute(
-              name: AppRoutes.gameLocalVsComputer.name,
-              path: AppRoutes.gameLocalVsComputer.path,
+              name: AppRoutes.computerDifficulty.name,
+              path: AppRoutes.computerDifficulty.path,
               pageBuilder: (BuildContext context, GoRouterState state) {
                 return MyTransitionPage<dynamic>(
-                  child: GamePage(
-                    player1: LocalPlayer(
-                      name: 'Joueur',
-                      cellValue: GameGridCellValue.cross,
-                      completer: Completer<Move>(),
-                    ),
-                    player2: ComputerPlayer(
-                      name: 'Ordi',
-                      cellValue: GameGridCellValue.circle,
-                      difficulty: ComputerPlayerDifficulty.medium,
-                    ),
-                  ),
+                  child: const ComputerDifficultyPage(),
                 );
               },
+              routes: <GoRoute>[
+                GoRoute(
+                  name: AppRoutes.gameLocalVsComputer.name,
+                  path: AppRoutes.gameLocalVsComputer.path,
+                  pageBuilder: (BuildContext context, GoRouterState state) {
+                    final String? difficulty =
+                        state.uri.queryParameters['difficulty'];
+                    final int? difficultyInt = int.tryParse(difficulty ?? '');
+
+                    final ComputerPlayerDifficulty computerPlayerDifficulty =
+                        ComputerPlayerDifficulty.values[difficultyInt ?? 0];
+
+                    return MyTransitionPage<dynamic>(
+                      child: GamePage(
+                        player1: LocalPlayer(
+                          name: 'Joueur',
+                          cellValue: GameGridCellValue.cross,
+                          completer: Completer<Move>(),
+                        ),
+                        player2: ComputerPlayer(
+                          name: 'Ordi',
+                          cellValue: GameGridCellValue.circle,
+                          difficulty: computerPlayerDifficulty,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ],
             ),
             GoRoute(
               name: AppRoutes.gameComputerVsComputer.name,

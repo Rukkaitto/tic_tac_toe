@@ -16,6 +16,11 @@ class AppRoutes {
     name: 'MyButton',
   );
 
+  static const AppRoute computerDifficulty = AppRoute(
+    path: 'computer-difficulty',
+    name: 'ComputerDifficulty',
+  );
+
   static const AppRoute gameLocalVsLocal = AppRoute(
     path: 'local-vs-local',
     name: 'LocalVsLocal',

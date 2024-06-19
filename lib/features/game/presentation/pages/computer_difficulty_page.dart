@@ -1,17 +1,34 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/constants/widget_keys.dart';
 import '../../../../core/services/router_service/app_routes.dart';
 import '../../../../core/services/router_service/router_service.dart';
 import '../../../../core/ui_components/my_button/my_button.dart';
 import '../../../../core/ui_components/scrolling_background/scrolling_background.dart';
+import '../../domain/entities/entities.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class ComputerDifficultyPage extends StatelessWidget {
+  const ComputerDifficultyPage({super.key});
+
+  void _goToGamePage(
+    BuildContext context,
+    ComputerPlayerDifficulty difficulty,
+  ) {
+    RouterService.of(context).go(
+      AppRoutes.gameLocalVsComputer,
+      queryParameters: <String, dynamic>{
+        'difficulty': difficulty.index.toString(),
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+      ),
       body: ScrollingBackground(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -19,25 +36,23 @@ class HomePage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               MyButton(
-                key: WidgetKeys.playerVsPlayerButton,
-                text: 'Joueur vs. Joueur',
+                text: 'Facile',
                 onPressed: () {
-                  RouterService.of(context).go(AppRoutes.gameLocalVsLocal);
+                  _goToGamePage(context, ComputerPlayerDifficulty.easy);
                 },
               ),
               const SizedBox(height: 20),
               MyButton(
-                text: 'Joueur vs. Ordi',
+                text: 'Moyen',
                 onPressed: () {
-                  RouterService.of(context).go(AppRoutes.computerDifficulty);
+                  _goToGamePage(context, ComputerPlayerDifficulty.medium);
                 },
               ),
               const SizedBox(height: 20),
               MyButton(
-                text: 'Ordi vs. Ordi',
+                text: 'Difficile',
                 onPressed: () {
-                  RouterService.of(context)
-                      .go(AppRoutes.gameComputerVsComputer);
+                  _goToGamePage(context, ComputerPlayerDifficulty.hard);
                 },
               ),
             ],
