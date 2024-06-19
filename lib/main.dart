@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import 'core/services/dependency_injection_service/dependency_injection_service.dart';
 import 'core/services/router_service/router_service.dart';
@@ -17,14 +16,6 @@ class MyApp extends StatelessWidget {
 
   late final GoRouter _router = RouterService.createRouter();
 
-  ThemeData _buildTheme() {
-    final ThemeData baseTheme = ThemeData(brightness: Brightness.light);
-
-    return baseTheme.copyWith(
-      textTheme: GoogleFonts.baiJamjureeTextTheme(baseTheme.textTheme),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     // Make app fullscreen
@@ -36,7 +27,6 @@ class MyApp extends StatelessWidget {
       routeInformationParser: _router.routeInformationParser,
       routeInformationProvider: _router.routeInformationProvider,
       routerDelegate: _router.routerDelegate,
-      theme: _buildTheme(),
     );
   }
 }

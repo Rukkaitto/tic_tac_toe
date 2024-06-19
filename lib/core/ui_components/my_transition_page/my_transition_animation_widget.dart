@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
 
+import '../../constants/rive/rive.dart';
 import '../../services/asset_service/asset_service.dart';
 
 class MyTransitionAnimationWidget extends StatefulWidget {
@@ -21,13 +22,13 @@ class _MyTransitionAnimationWidgetState
 
   void onRiveEvent(RiveEvent event) {
     switch (event.name) {
-      case 'switch_view':
+      case RiveEvents.switchView:
         WidgetsBinding.instance.addPostFrameCallback((_) {
           setState(() {
             _backgroundWidget = widget.child;
           });
         });
-      case 'completed':
+      case RiveEvents.completed:
         WidgetsBinding.instance.addPostFrameCallback((_) {
           setState(() {
             _isAnimationCompleted = true;
@@ -58,7 +59,7 @@ class _MyTransitionAnimationWidgetState
             final StateMachineController? controller =
                 StateMachineController.fromArtboard(
               artboard,
-              'State Machine 1',
+              RiveStateMachines.stateMachine1,
             );
             controller?.addEventListener(onRiveEvent);
             artboard.addController(controller!);

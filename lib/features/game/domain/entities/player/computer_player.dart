@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:math';
 
-import '../../presentation/bloc/game/game_cubit.dart';
-import 'entities.dart';
+import '../../../presentation/bloc/game/game_cubit.dart';
+import '../entities.dart';
 
 class ComputerPlayer extends Player {
   ComputerPlayer({
@@ -28,6 +28,9 @@ class ComputerPlayer extends Player {
     return 0;
   }
 
+  /// Sources:
+  /// - https://www.neverstopbuilding.com/blog/minimax
+  /// - https://en.wikipedia.org/wiki/Minimax
   int _minimax(GameState state, int depth, bool isMax) {
     if (state.isGameOver) {
       return _evaluate(state, depth);

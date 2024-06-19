@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rive/rive.dart';
 
-import '../../../../core/constants/rive_artboards.dart';
+import '../../../../core/constants/rive/rive.dart';
 import '../../../../core/constants/widget_keys.dart';
 import '../../../../core/services/asset_service/asset_service.dart';
 import '../../domain/entities/entities.dart';
@@ -13,6 +13,8 @@ class GameGridCellWidget extends StatelessWidget {
   const GameGridCellWidget({super.key, required this.cell});
 
   final GameGridCell cell;
+
+  static const double _padding = 8;
 
   void _handleTap(
     BuildContext context, {
@@ -58,7 +60,7 @@ class GameGridCellWidget extends StatelessWidget {
         color: Colors.white,
         alignment: Alignment.center,
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(_padding),
           child: _buildIcon(cell),
         ),
       ),

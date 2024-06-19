@@ -1,4 +1,4 @@
-import 'entities.dart';
+import '../entities.dart';
 
 class Move {
   const Move({

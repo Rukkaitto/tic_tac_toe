@@ -19,6 +19,10 @@ class GamePage extends StatelessWidget {
   final Player player1;
   final Player player2;
 
+  static const double _playerBannerHorizontalPadding = 10.0;
+  static const double _gameGridHorizontalPadding = 20.0;
+  static const double _gameGridVerticalPadding = 30.0;
+
   void _handleGameEnd(
     BuildContext context, {
     required String title,
@@ -84,18 +88,22 @@ class GamePage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: _playerBannerHorizontalPadding,
+                      ),
                       child: PlayerBanner(player: state.player2),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(
-                        horizontal: 20.0,
-                        vertical: 30.0,
+                        horizontal: _gameGridHorizontalPadding,
+                        vertical: _gameGridVerticalPadding,
                       ),
                       child: GameGridWidget(grid: state.grid),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: _playerBannerHorizontalPadding,
+                      ),
                       child: PlayerBanner(player: state.player1),
                     ),
                   ],

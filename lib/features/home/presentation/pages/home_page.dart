@@ -10,12 +10,15 @@ import '../../../../core/ui_components/scrolling_background/scrolling_background
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
+  static const double _horizontalPadding = 20;
+  static const double _buttonSpacing = 20;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: ScrollingBackground(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
+          padding: const EdgeInsets.symmetric(horizontal: _horizontalPadding),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -26,14 +29,14 @@ class HomePage extends StatelessWidget {
                   RouterService.of(context).go(AppRoutes.gameLocalVsLocal);
                 },
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: _buttonSpacing),
               MyButton(
                 text: AppLocalizations.of(context)!.playerVsComputer,
                 onPressed: () {
                   RouterService.of(context).go(AppRoutes.computerDifficulty);
                 },
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: _buttonSpacing),
               MyButton(
                 text: AppLocalizations.of(context)!.computerVsComputer,
                 onPressed: () {
